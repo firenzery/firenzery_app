@@ -17,72 +17,27 @@ class LoginPage extends StatefulWidget {
 }
 
 class _State extends State<LoginPage> {
+  final controller =
+      LoginController(UserViewModel(UserService(ClientHttpSevice())));
 
-  final controller = LoginController(UserViewModel(UserService(ClientHttpSevice())));
-  
-  String? email;
-  String? password;
-
-  listenner() {
-    controller.loginModel.addListener(() {
-      verifyCredentials(controller.loginModel.value.passed!, controller.loginModel.value.message!);
-    });
-  }
-
-  verifyCredentials(int passed, String message) {
-    if (passed == 1) {
-      return Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
-      );
-    } else if (passed == 2) {
-      return showAlertDialog(context, message);
-    }
-    
-  }
-  showAlertDialog(BuildContext context, String message){
-    // configura o button
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () { 
-        Navigator.of(context).pop();
-      },
-    );
-
-    // configura o  AlertDialog
-    AlertDialog alerta = AlertDialog(
-      title: Text("Login"),
-      content: Text(message),
-      actions: [
-        okButton,
-      ],
-    );
-    // exibe o dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alerta;
-      },
-    );
-  }
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 60, left: 40, right: 40),
+        padding: const EdgeInsets.only(top: 60, left: 40, right: 40),
         color: Colors.white,
         child: ListView(
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
               // autofocus: true,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "E-mail",
                 labelStyle: TextStyle(
                   color: Colors.black38,
@@ -91,16 +46,16 @@ class _State extends State<LoginPage> {
                 ),
               ),
               onChanged: (value) => email = value,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextFormField(
               // autofocus: true,
               keyboardType: TextInputType.text,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Senha",
                 labelStyle: TextStyle(
                   color: Colors.black38,
@@ -109,13 +64,13 @@ class _State extends State<LoginPage> {
                 ),
               ),
               onChanged: (value) => password = value,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
             Container(
               height: 40,
               alignment: Alignment.centerRight,
               child: FlatButton(
-                child: Text(
+                child: const Text(
                   "Recuperar Senha",
                   textAlign: TextAlign.right,
                 ),
@@ -123,19 +78,19 @@ class _State extends State<LoginPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ResetPasswordPage(),
+                      builder: (context) => const ResetPasswordPage(),
                     ),
                   );
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             Container(
               height: 60,
               alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -150,36 +105,33 @@ class _State extends State<LoginPage> {
                 ),
               ),
               child: SizedBox.expand(
-                child: FlatButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.left,
-                      )
-                    ],
-                  ),
-                  onPressed: () {
-                    controller.login(email, password);
-                    listenner();
-                  },
-                )
-              ),
+                  child: FlatButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const <Widget>[
+                    Text(
+                      "Login",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.left,
+                    )
+                  ],
+                ),
+                onPressed: () {
+                  controller.login(email, password, context);
+                },
+              )),
             ),
-            
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
               height: 60,
               alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xFF3C5A99),
                 borderRadius: BorderRadius.all(
                   Radius.circular(5),
@@ -189,7 +141,7 @@ class _State extends State<LoginPage> {
                 child: FlatButton(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                    children: const <Widget>[
                       Text(
                         "Login com Facebook",
                         style: TextStyle(
@@ -205,13 +157,13 @@ class _State extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Container(
+            SizedBox(
               height: 40,
               child: FlatButton(
-                child: Text(
+                child: const Text(
                   "Cadastre-se",
                   textAlign: TextAlign.center,
                 ),
@@ -219,7 +171,7 @@ class _State extends State<LoginPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SignupPage(),
+                      builder: (context) => const SignupPage(),
                     ),
                   );
                 },
@@ -228,7 +180,6 @@ class _State extends State<LoginPage> {
           ],
         ),
       ),
-      
     );
   }
 }
