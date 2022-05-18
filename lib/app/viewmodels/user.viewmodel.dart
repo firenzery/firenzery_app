@@ -5,19 +5,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UserViewModel {
-
   final IUser service;
 
-  final userModel = ValueNotifier<UserModel>(UserModel(idClient: null, firstName: null, surname: null, dateNasc: null, email: null, cpf: null, nrPhone: null));
-  final loginModel = ValueNotifier<LoginModel>(LoginModel(passed: null, message: null));
+  final userModel = ValueNotifier<UserModel>(UserModel(
+      idClient: null,
+      firstName: null,
+      surname: null,
+      dateNasc: null,
+      email: null,
+      cpf: null,
+      nrPhone: null));
+
+  final loginModel =
+      ValueNotifier<LoginModel>(LoginModel(passed: null, message: null));
 
   UserViewModel(this.service);
 
   getUser(id) async {
-    userModel.value = await service.getUser(id);
+    var resp = await service.getUser(id);
+
+    userModel.value = UserModel.fromJson(resp);
+
+    return resp;
   }
 
   login(email, password) async {
-    loginModel.value = await service.login(email, password);
+    var resp = await service.login(email, password);
+
+    loginModel.value = LoginModel.fromJson(resp.data);
+
+    return resp;
   }
 }
