@@ -34,7 +34,7 @@ class SignUpController extends SignupPage {
       //   showAlertDialog(context, loginModel.value.message ?? '');
       // }
     } else {
-      showAlertDialog(context, 'Erro ao se cadastrar!');
+      showAlertDialog(context, 'Erro ao se cadastrar!', 'Cadastro');
     }
   }
 }

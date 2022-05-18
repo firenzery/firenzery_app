@@ -26,10 +26,10 @@ class LoginController extends LoginPage {
           ),
         );
       } else {
-        showAlertDialog(context, loginModel.value.message ?? '');
+        showAlertDialog(context, loginModel.value.message ?? '', 'Login');
       }
     } else {
-      showAlertDialog(context, 'Erro na requisicao!');
+      showAlertDialog(context, 'Erro na requisicao!', 'Login');
     }
   }
 }
