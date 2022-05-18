@@ -1,10 +1,8 @@
-import 'package:firenzery/app/models/login.model.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/remote/client_http.service.dart';
 import '../../services/remote/user.service.dart';
 import '../../viewmodels/user.viewmodel.dart';
-import '../home/home.page.dart';
 import '../resetpassword/reset_password.page.dart';
 import '../signup/signup.page.dart';
 import 'login.controller.dart';
@@ -20,8 +18,8 @@ class _State extends State<LoginPage> {
   final controller =
       LoginController(UserViewModel(UserService(ClientHttpSevice())));
 
-  String? email;
-  String? password;
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {

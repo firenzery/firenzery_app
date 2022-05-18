@@ -8,8 +8,8 @@ class UserModel {
   int? cpf;
   int? nrPhone;
 
-  UserModel({
-      this.idClient,
+  UserModel(
+      {this.idClient,
       this.firstName,
       this.surname,
       this.dateNasc,
