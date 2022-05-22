@@ -42,6 +42,10 @@ class _State extends State<LoginPage> {
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
                 ),
+                prefixIcon: Icon(
+                  Icons.email,
+                  color: Colors.black,
+                ),
               ),
               onChanged: (value) => email = value,
               style: const TextStyle(fontSize: 20),
@@ -59,6 +63,10 @@ class _State extends State<LoginPage> {
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
+                ),
+                prefixIcon: Icon(
+                  Icons.lock_outline,
+                  color: Colors.black,
                 ),
               ),
               onChanged: (value) => password = value,

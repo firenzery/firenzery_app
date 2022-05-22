@@ -4,18 +4,19 @@ import 'package:firenzery/app/models/user.model.dart';
 
 class UserService implements IUser {
   final IClientHttp client;
+  final String url = "http://192.168.100.11:8080";
 
   UserService(this.client);
 
   @override
   Future getUser(int id) async {
-    return await client.get("http://172.22.128.1:8080/client/$id");
+    return await client.get("${url}/client/$id");
   }
 
   @override
   Future login(String email, String password) async {
-    return await client.post("http://172.22.128.1:8080/client/login",
-        {"email": email, "password": password});
+    return await client
+        .post("${url}/client/login", {"email": email, "password": password});
   }
 
   @override
@@ -30,6 +31,10 @@ class UserService implements IUser {
       "nrPhone": user.nrPhone
     };
 
-    return await client.post("http://172.22.128.1:8080/client", json);
+    try {
+      return await client.post("${url}/client", json);
+    } catch (error) {
+      return error;
+    }
   }
 }

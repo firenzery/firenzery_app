@@ -15,21 +15,25 @@ class LoginController extends LoginPage {
   ValueNotifier<LoginModel> get loginModel => viewModel.loginModel;
 
   login(email, password, context) async {
-    var response = await viewModel.login(email, password);
-
-    if (response.statusCode == 200) {
-      if (loginModel.value.passed == 1) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomePage(),
-          ),
-        );
-      } else {
-        showAlertDialog(context, loginModel.value.message ?? '', 'Login');
-      }
+    if (!email.contains('@') || !email.contains('.com')) {
+      showAlertDialog(context, 'Email Invalido!', 'Login');
     } else {
-      showAlertDialog(context, 'Erro na requisicao!', 'Login');
+      var response = await viewModel.login(email, password);
+
+      if (response.statusCode == 200) {
+        if (loginModel.value.passed == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
+        } else {
+          showAlertDialog(context, loginModel.value.message ?? '', 'Login');
+        }
+      } else {
+        showAlertDialog(context, 'Erro na requisicao!', 'Login');
+      }
     }
   }
 }

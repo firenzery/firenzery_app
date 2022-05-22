@@ -13,27 +13,20 @@ class SignUpController extends SignupPage {
   ValueNotifier<UserModel> get registerModel => viewModel.userModel;
 
   register(context, UserModel user) async {
-    var response = await viewModel.register(user);
+    try {
+      var response = await viewModel.register(user);
 
-    if (response.statusCode == 200) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ),
-      );
-
-      // if (loginModel.value.passed == 1) {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => const HomePage(),
-      //     ),
-      //   );
-      // } else {
-      //   showAlertDialog(context, loginModel.value.message ?? '');
-      // }
-    } else {
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ),
+        );
+      } else {
+        showAlertDialog(context, 'Erro ao se cadastrar!', 'Cadastro');
+      }
+    } catch (error) {
       showAlertDialog(context, 'Erro ao se cadastrar!', 'Cadastro');
     }
   }

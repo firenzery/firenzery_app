@@ -30,11 +30,15 @@ class UserViewModel {
   }
 
   register(UserModel user) async {
-    var resp = await service.register(user);
+    try {
+      var resp = await service.register(user);
 
-    userModel.value = UserModel.fromJson(resp.data);
+      userModel.value = UserModel.fromJson(resp.data);
 
-    return resp;
+      return resp;
+    } catch (error) {
+      return error;
+    }
   }
 
   login(email, password) async {
