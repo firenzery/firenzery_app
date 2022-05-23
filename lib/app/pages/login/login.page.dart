@@ -1,3 +1,4 @@
+import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/remote/client_http.service.dart';
@@ -94,75 +95,25 @@ class _State extends State<LoginPage> {
               height: 40,
             ),
             Container(
-              height: 60,
-              alignment: Alignment.centerLeft,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: [0.3, 1],
-                  colors: [
-                    Color(0xFFF58524),
-                    Color(0XFFF92B7F),
-                  ],
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: SizedBox.expand(
-                  child: FlatButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const <Widget>[
-                    Text(
-                      "Login",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                      textAlign: TextAlign.left,
-                    )
-                  ],
-                ),
-                onPressed: () {
-                  controller.login(email, password, context);
-                },
-              )),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 60,
-              alignment: Alignment.centerLeft,
-              decoration: const BoxDecoration(
-                color: Color(0xFF3C5A99),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: SizedBox.expand(
-                child: FlatButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const <Widget>[
-                      Text(
-                        "Login com Facebook",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ],
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: 200,
+                    height: 48,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        controller.login(email, password, context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: primaryColor, shape: const StadiumBorder()),
+                      child: const Text("Login"),
+                    ),
                   ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
+                )
+              ],
+            )),
             const SizedBox(
               height: 10,
             ),
