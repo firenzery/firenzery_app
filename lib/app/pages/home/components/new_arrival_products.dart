@@ -23,7 +23,10 @@ class NewArrivalProducts extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ListProductsPage(category: 9),
+                    builder: (context) => ListProductsPage(
+                      category: 9,
+                      title: 'Novos Produtos',
+                    ),
                   ));
             },
           ),

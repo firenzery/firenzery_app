@@ -23,8 +23,9 @@ class Categories extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      ListProductsPage(category: demo_categories[index].type),
+                  builder: (context) => ListProductsPage(
+                      category: demo_categories[index].type,
+                      title: demo_categories[index].title),
                 ));
           },
         ),

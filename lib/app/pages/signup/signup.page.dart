@@ -1,6 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:firenzery/app/models/user.model.dart';
-import 'package:firenzery/app/pages/home/components/search_form.dart';
+import 'package:firenzery/app/pages/signup/components/text_form.component.dart';
 import 'package:firenzery/app/pages/signup/signup.controller.dart';
 import 'package:firenzery/app/services/remote/client_http.service.dart';
 import 'package:firenzery/app/services/remote/user.service.dart';
@@ -53,8 +53,6 @@ class _MyWidgetState extends State<SignupPage> {
       cpf: null,
       nrPhone: null);
 
-  DateTime? _valueDateNasc;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,312 +64,164 @@ class _MyWidgetState extends State<SignupPage> {
             const SizedBox(
               height: 40,
             ),
-            Material(
-              elevation: 5.0,
-              shadowColor: primaryColor,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Primeiro Nome",
-                  border: outlineInputBorder,
-                  enabledBorder: outlineInputBorder,
-                  focusedBorder: outlineInputBorder,
-                  errorBorder: outlineInputBorder,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: defaultPadding,
-                        vertical: defaultPadding / 2),
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Primeiro Nome Obrigatorio!';
-                  } else {
-                    return null;
-                  }
-                },
-                onChanged: (value) {
-                  user.firstName = value;
-                  if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
-                },
-              ),
+            TextFormComponent(
+              text: 'Primeiro Nome',
+              valid: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Primeiro Nome Obrigatorio!';
+                } else {
+                  return null;
+                }
+              },
+              change: (value) {
+                user.firstName = value;
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+              },
             ),
             const SizedBox(
               height: 10,
             ),
-            Material(
-              elevation: 5.0,
-              shadowColor: primaryColor,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Sobrenome",
-                  border: outlineInputBorder,
-                  enabledBorder: outlineInputBorder,
-                  focusedBorder: outlineInputBorder,
-                  errorBorder: outlineInputBorder,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: defaultPadding,
-                        vertical: defaultPadding / 2),
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Sobrenome Obrigatorio!';
-                  } else {
-                    return null;
-                  }
-                },
-                onChanged: (value) {
-                  user.surname = value;
-                  if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
-                },
-              ),
+            TextFormComponent(
+              text: 'Sobrenome',
+              valid: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Sobrenome Obrigatorio!';
+                } else {
+                  return null;
+                }
+              },
+              change: (value) {
+                user.surname = value;
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+              },
             ),
             const SizedBox(
               height: 10,
             ),
-            Material(
-              elevation: 5.0,
-              shadowColor: primaryColor,
-              child: TextFormField(
-                  controller: _dateNascController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Data de Nascimento",
-                    border: outlineInputBorder,
-                    enabledBorder: outlineInputBorder,
-                    focusedBorder: outlineInputBorder,
-                    errorBorder: outlineInputBorder,
-                    suffixIcon: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: defaultPadding,
-                          vertical: defaultPadding / 2),
-                      child: SizedBox(
-                        width: 48,
-                        height: 48,
-                      ),
-                    ),
-                  ),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly,
-                    DataInputFormatter()
-                  ],
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Data Obrigatoria!';
-                    } else if (_dateNascController.text.length != 10) {
-                      return 'Data Invalida!';
-                    } else if (!overAgeWorker(_dateNascController.text, 16)) {
-                      return 'Idade minima de 16';
-                    }
-
-                    return null;
-                  },
-                  onChanged: (value) {
-                    user.dateNasc = value;
-                    if (!_formKey.currentState!.validate()) {
-                      return;
-                    }
-                  }),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Material(
-              elevation: 5.0,
-              shadowColor: primaryColor,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Email",
-                  border: outlineInputBorder,
-                  enabledBorder: outlineInputBorder,
-                  focusedBorder: outlineInputBorder,
-                  errorBorder: outlineInputBorder,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: defaultPadding,
-                        vertical: defaultPadding / 2),
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Email Obrigatorio!';
-                  } else if (!value.contains("@") || !value.contains(".com")) {
-                    return 'Email Invalido!';
-                  } else {
-                    return null;
-                  }
-                },
-                onChanged: (value) {
-                  user.email = value;
-                  if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Material(
-              elevation: 5.0,
-              shadowColor: primaryColor,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Password",
-                  border: outlineInputBorder,
-                  enabledBorder: outlineInputBorder,
-                  focusedBorder: outlineInputBorder,
-                  errorBorder: outlineInputBorder,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: defaultPadding,
-                        vertical: defaultPadding / 2),
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                    ),
-                  ),
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Senha Obrigatoria!';
-                  } else {
-                    return null;
-                  }
-                },
-                onChanged: (value) {
-                  user.password = value;
-                  if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Material(
-              elevation: 5.0,
-              shadowColor: primaryColor,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Cpf",
-                  border: outlineInputBorder,
-                  enabledBorder: outlineInputBorder,
-                  focusedBorder: outlineInputBorder,
-                  errorBorder: outlineInputBorder,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: defaultPadding,
-                        vertical: defaultPadding / 2),
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                    ),
-                  ),
-                ),
-                keyboardType: TextInputType.number,
+            TextFormComponent(
+                text: 'Data de Nascimento',
+                controller: _dateNascController,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly,
-                  CpfInputFormatter()
+                  DataInputFormatter()
                 ],
-                validator: (value) {
+                valid: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Cpf Obrigatorio!';
-                  } else if (value.length != 14) {
-                    return 'Cpf Invalido';
-                  } else {
-                    return null;
+                    return 'Data Obrigatoria!';
+                  } else if (_dateNascController.text.length != 10) {
+                    return 'Data Invalida!';
+                  } else if (!overAgeWorker(_dateNascController.text, 16)) {
+                    return 'Idade minima de 16';
                   }
-                },
-                onChanged: (value) {
-                  String data = value.replaceAll(numberSingle, '');
-                  user.cpf = int.parse(data);
 
+                  return null;
+                },
+                change: (value) {
+                  user.dateNasc = value;
                   if (!_formKey.currentState!.validate()) {
                     return;
                   }
-                },
-              ),
+                }),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormComponent(
+              text: 'Email',
+              valid: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Email Obrigatorio!';
+                } else if (!value.contains("@") || !value.contains(".com")) {
+                  return 'Email Invalido!';
+                } else {
+                  return null;
+                }
+              },
+              change: (value) {
+                user.email = value;
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+              },
             ),
             const SizedBox(
               height: 10,
             ),
-            Material(
-              elevation: 5.0,
-              shadowColor: primaryColor,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Celular",
-                  border: outlineInputBorder,
-                  enabledBorder: outlineInputBorder,
-                  focusedBorder: outlineInputBorder,
-                  errorBorder: outlineInputBorder,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: defaultPadding,
-                        vertical: defaultPadding / 2),
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                    ),
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly,
-                  TelefoneInputFormatter()
-                ],
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Número de Celular Obrigatorio!';
-                  } else if (value.length != 15) {
-                    return 'Numero de Celular Invalido';
-                  } else {
-                    return null;
-                  }
-                },
-                onChanged: (value) {
-                  String data = value.replaceAll(numberSingle, '');
-                  user.nrPhone = int.parse(data);
+            TextFormComponent(
+              text: 'Senha',
+              isObscured: true,
+              valid: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Senha Obrigatoria!';
+                } else {
+                  return null;
+                }
+              },
+              change: (value) {
+                user.password = value;
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormComponent(
+              text: 'Cpf',
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+                CpfInputFormatter()
+              ],
+              valid: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Cpf Obrigatorio!';
+                } else if (value.length != 14) {
+                  return 'Cpf Invalido';
+                } else {
+                  return null;
+                }
+              },
+              change: (value) {
+                String data = value.replaceAll(numberSingle, '');
+                user.cpf = int.parse(data);
 
-                  if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
-                },
-              ),
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormComponent(
+              text: 'Celular',
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+                TelefoneInputFormatter()
+              ],
+              valid: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Número de Celular Obrigatorio!';
+                } else if (value.length != 15) {
+                  return 'Numero de Celular Invalido';
+                } else {
+                  return null;
+                }
+              },
+              change: (value) {
+                String data = value.replaceAll(numberSingle, '');
+                user.nrPhone = int.parse(data);
+
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+              },
             ),
             const SizedBox(
               height: 40,

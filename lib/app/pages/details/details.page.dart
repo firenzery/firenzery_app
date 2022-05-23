@@ -15,10 +15,12 @@ class DetailsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: product.bgColor,
       appBar: AppBar(
+        backgroundColor: primaryColor,
         leading: const BackButton(color: Colors.black),
       ),
       body: Column(
         children: [
+          const SizedBox(height: defaultPadding * 3),
           Image.asset(
             product.image,
             height: MediaQuery.of(context).size.height * 0.4,

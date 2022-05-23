@@ -22,7 +22,8 @@ class PopularProducts extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ListProductsPage(category: 8),
+                    builder: (context) =>
+                        const ListProductsPage(category: 8, title: 'Popular'),
                   ));
             },
           ),
