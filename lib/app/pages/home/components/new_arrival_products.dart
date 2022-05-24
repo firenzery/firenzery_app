@@ -7,9 +7,9 @@ import 'product_card.dart';
 import 'section_title.dart';
 
 class NewArrivalProducts extends StatelessWidget {
-  const NewArrivalProducts({
-    Key? key,
-  }) : super(key: key);
+  final List newProductsList;
+  final int categoryId;
+  const NewArrivalProducts(this.newProductsList, this.categoryId);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,9 @@ class NewArrivalProducts extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ListProductsPage(
-                      category: 9,
-                      title: 'Novos Produtos',
+                      newProductsList,
+                      categoryId,
+                      'Novos Produtos',
                     ),
                   ));
             },
@@ -37,20 +38,19 @@ class NewArrivalProducts extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(
-              demo_product.length,
+              newProductsList.length,
               (index) => Padding(
                 padding: const EdgeInsets.only(right: defaultPadding),
                 child: ProductCard(
-                  title: demo_product[index].title,
-                  image: demo_product[index].image,
-                  price: demo_product[index].price,
-                  bgColor: demo_product[index].bgColor,
+                  title: newProductsList[index].name,
+                  image: newProductsList[index].image,
+                  price: newProductsList[index].price,
                   press: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              DetailsPage(product: demo_product[index]),
+                              DetailsPage(product: newProductsList[index]),
                         ));
                   },
                 ),

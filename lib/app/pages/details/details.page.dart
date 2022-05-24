@@ -1,9 +1,6 @@
 import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
-import 'components/color_dot.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({Key? key, required this.product}) : super(key: key);
@@ -13,7 +10,6 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: product.bgColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
         leading: const BackButton(color: Colors.black),
@@ -22,7 +18,7 @@ class DetailsPage extends StatelessWidget {
         children: [
           const SizedBox(height: defaultPadding * 3),
           Image.asset(
-            product.image,
+            product.image!,
             height: MediaQuery.of(context).size.height * 0.4,
             fit: BoxFit.cover,
           ),
@@ -45,13 +41,13 @@ class DetailsPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          product.title,
+                          product.name!,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ),
                       const SizedBox(width: defaultPadding),
                       Text(
-                        "\$" + product.price.toString(),
+                        "\$${product.price}",
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ],

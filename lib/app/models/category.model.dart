@@ -1,16 +1,21 @@
 class CategoryModel {
-  final String icon, title;
-  final int type;
+  String? icon;
+  String? title;
+  int? type;
 
-  CategoryModel({required this.icon, required this.title, required this.type});
+  CategoryModel({this.icon, this.title, this.type});
+
+  CategoryModel.fromJson(Map<String, dynamic> json) {
+    icon = json['icon'];
+    title = json['title'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['icon'] = this.icon;
+    data['title'] = this.title;
+    data['type'] = this.type;
+    return data;
+  }
 }
-
-List<CategoryModel> demo_categories = [
-  CategoryModel(
-      icon: "assets/icons/soda_icon.svg", title: "Refrigerantes", type: 1),
-  CategoryModel(
-      icon: "assets/icons/soda_icon.svg", title: "Energeticos", type: 2),
-  CategoryModel(icon: "assets/icons/soda_icon.svg", title: "Cervejas", type: 3),
-  CategoryModel(
-      icon: "assets/icons/soda_icon.svg", title: "Destilados", type: 4),
-];

@@ -1,3 +1,7 @@
+import 'package:firenzery/app/services/remote/categories.service.dart';
+import 'package:firenzery/app/services/remote/products.service.dart';
+import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +20,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _State extends State<LoginPage> {
-  final controller =
-      LoginController(UserViewModel(UserService(ClientHttpSevice())));
+  final controller = LoginController(
+      UserViewModel(UserService(ClientHttpSevice())),
+      ProductsViewModel(ProductsService(ClientHttpSevice())),
+      CategoriesViewModel(CategoriesService(ClientHttpSevice())));
 
   String email = '';
   String password = '';
@@ -76,7 +82,7 @@ class _State extends State<LoginPage> {
             Container(
               height: 40,
               alignment: Alignment.centerRight,
-              child: FlatButton(
+              child: TextButton(
                 child: const Text(
                   "Recuperar Senha",
                   textAlign: TextAlign.right,
@@ -94,8 +100,7 @@ class _State extends State<LoginPage> {
             const SizedBox(
               height: 40,
             ),
-            Container(
-                child: Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
@@ -113,13 +118,13 @@ class _State extends State<LoginPage> {
                   ),
                 )
               ],
-            )),
+            ),
             const SizedBox(
               height: 10,
             ),
             SizedBox(
               height: 40,
-              child: FlatButton(
+              child: TextButton(
                 child: const Text(
                   "Cadastre-se",
                   textAlign: TextAlign.center,

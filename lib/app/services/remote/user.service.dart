@@ -10,13 +10,13 @@ class UserService implements IUser {
 
   @override
   Future getUser(int id) async {
-    return await client.get("${url}/client/$id");
+    return await client.get("$url/client/$id");
   }
 
   @override
   Future login(String email, String password) async {
     return await client
-        .post("${url}/client/login", {"email": email, "password": password});
+        .post("$url/client/login", {"email": email, "password": password});
   }
 
   @override
@@ -32,7 +32,7 @@ class UserService implements IUser {
     };
 
     try {
-      return await client.post("${url}/client", json);
+      return await client.post("$url/client", json);
     } catch (error) {
       return error;
     }

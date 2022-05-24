@@ -1,6 +1,12 @@
+import 'package:firenzery/app/models/category.model.dart';
+import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/cart/cart.page.dart';
-import 'package:firenzery/app/pages/person/person.page.dart';
-import 'package:firenzery/app/pages/requests/requests.page.dart';
+import 'package:firenzery/app/pages/home/home.controller.dart';
+import 'package:firenzery/app/services/remote/categories.service.dart';
+import 'package:firenzery/app/services/remote/client_http.service.dart';
+import 'package:firenzery/app/services/remote/products.service.dart';
+import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,16 +16,39 @@ import 'components/popular_products.dart';
 import 'components/search_form.dart';
 
 class HomePage extends StatefulWidget {
+  final List allCategories;
+  final List allProducts;
+
+  HomePage(this.allCategories, this.allProducts);
+
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(allCategories, allProducts);
 }
 
 class _HomePageState extends State<HomePage> {
+  final List categories;
+  final List products;
+
+  _HomePageState(this.categories, this.products);
+
+  final controller = HomeController(
+      ProductsViewModel(ProductsService(ClientHttpSevice())),
+      CategoriesViewModel(CategoriesService(ClientHttpSevice())), [
+    CategoryModel(
+      icon: '',
+      title: '',
+      type: 0,
+    )
+  ], [
+    ProductModel(image: '', name: '', type: 0, price: 0.00)
+  ]);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: primaryColor,
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -68,9 +97,11 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(vertical: defaultPadding),
                 child: SearchForm(),
               ),
-              const Categories(),
-              const NewArrivalProducts(),
-              const PopularProducts(),
+              Categories(categories, products),
+              NewArrivalProducts(
+                  controller.getFiveProductsbyCategory(products, 1), 1),
+              PopularProducts(
+                  controller.getFiveProductsbyCategory(products, 1), 1),
             ],
           ),
         ));

@@ -1,20 +1,23 @@
 import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/details/details.page.dart';
 import 'package:firenzery/app/pages/home/components/product_card.dart';
-import 'package:firenzery/app/pages/list_products/components/list_products_card.dart';
+import 'package:firenzery/app/pages/list_products/list_products.controller.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ListProductsPage extends StatelessWidget {
-  const ListProductsPage({Key? key, int? category, required this.title})
-      : super(key: key);
-
+  final List allProducts;
+  final int categoryId;
   final String title;
+
+  ListProductsPage(this.allProducts, this.categoryId, this.title);
 
   @override
   Widget build(BuildContext context) {
+    final controller = ListProductsController(allProducts, categoryId, title);
+
+    List productsList = controller.getProductsbyCategory(categoryId);
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: primaryColor,
@@ -27,21 +30,20 @@ class ListProductsPage extends StatelessWidget {
         body: GridView.count(
             crossAxisCount: 2,
             children: List.generate(
-              demo_product.length,
+              productsList.length,
               (index) => Padding(
                 padding: const EdgeInsets.only(
                     right: defaultPadding, top: defaultPadding),
                 child: ProductCard(
-                  title: demo_product[index].title,
-                  image: demo_product[index].image,
-                  price: demo_product[index].price,
-                  bgColor: demo_product[index].bgColor,
+                  title: productsList[index].name,
+                  image: productsList[index].image,
+                  price: productsList[index].price,
                   press: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              DetailsPage(product: demo_product[index]),
+                              DetailsPage(product: productsList[index]),
                         ));
                   },
                 ),

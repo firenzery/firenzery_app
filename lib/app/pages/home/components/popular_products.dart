@@ -1,4 +1,5 @@
 import 'package:firenzery/app/models/product.model.dart';
+import 'package:firenzery/app/pages/details/details.page.dart';
 import 'package:firenzery/app/pages/list_products/list_products.page.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +7,9 @@ import 'product_card.dart';
 import 'section_title.dart';
 
 class PopularProducts extends StatelessWidget {
-  const PopularProducts({
-    Key? key,
-  }) : super(key: key);
+  final List popularProductsList;
+  final int categoryId;
+  const PopularProducts(this.popularProductsList, this.categoryId);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,8 @@ class PopularProducts extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const ListProductsPage(category: 8, title: 'Popular'),
+                    builder: (context) => ListProductsPage(
+                        popularProductsList, categoryId, 'Popular'),
                   ));
             },
           ),
@@ -34,15 +35,21 @@ class PopularProducts extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(
-              demo_product.length,
+              popularProductsList.length,
               (index) => Padding(
                 padding: const EdgeInsets.only(right: defaultPadding),
                 child: ProductCard(
-                  title: demo_product[index].title,
-                  image: demo_product[index].image,
-                  price: demo_product[index].price,
-                  bgColor: demo_product[index].bgColor,
-                  press: () {},
+                  title: popularProductsList[index].name,
+                  image: popularProductsList[index].image,
+                  price: popularProductsList[index].price,
+                  press: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailsPage(product: popularProductsList[index]),
+                        ));
+                  },
                 ),
               ),
             ),
