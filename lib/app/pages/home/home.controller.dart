@@ -23,16 +23,6 @@ class HomeController extends HomePage {
       this.categories, this.products)
       : super(categories, products);
 
-  getValues() async {
-    try {
-      categories = await categoriesViewModel.getAllCategories();
-      products = await productsViewModel.getAllProducts();
-      return [allCategories, allProducts];
-    } catch (error) {
-      return [[], []];
-    }
-  }
-
   getFiveProductsbyCategory(allProducts, categoryId) {
     return allProducts
         .where((data) => data.type == categoryId)
