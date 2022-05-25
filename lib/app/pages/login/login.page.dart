@@ -1,3 +1,4 @@
+import 'package:firenzery/app/services/local/shared_preferences.service.dart';
 import 'package:firenzery/app/services/remote/categories.service.dart';
 import 'package:firenzery/app/services/remote/products.service.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
@@ -21,15 +22,29 @@ class LoginPage extends StatefulWidget {
 
 class _State extends State<LoginPage> {
   final controller = LoginController(
-      UserViewModel(UserService(ClientHttpSevice())),
-      ProductsViewModel(ProductsService(ClientHttpSevice())),
-      CategoriesViewModel(CategoriesService(ClientHttpSevice())));
+    UserViewModel(UserService(ClientHttpSevice()), SharedPreferencesService()),
+    ProductsViewModel(ProductsService(ClientHttpSevice())),
+    CategoriesViewModel(CategoriesService(ClientHttpSevice())),
+  );
 
   String email = '';
   String password = '';
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.orange;
+      }
+      return primaryColor;
+    }
+
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(top: 60, left: 40, right: 40),
@@ -79,29 +94,30 @@ class _State extends State<LoginPage> {
               onChanged: (value) => password = value,
               style: const TextStyle(fontSize: 20),
             ),
-            Container(
-              height: 40,
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                child: const Text(
-                  "Recuperar Senha",
-                  textAlign: TextAlign.right,
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Checkbox(
+                  checkColor: Colors.white,
+                  fillColor: MaterialStateProperty.resolveWith(getColor),
+                  value: isChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked = value!;
+                    });
+                  },
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ResetPasswordPage(),
-                    ),
-                  );
-                },
-              ),
+                Text('Manter conectado'),
+              ],
             ),
             const SizedBox(
               height: 40,
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Center(
                   child: SizedBox(
@@ -109,7 +125,7 @@ class _State extends State<LoginPage> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        controller.login(email, password, context);
+                        controller.login(email, password, context, isChecked);
                       },
                       style: ElevatedButton.styleFrom(
                           primary: primaryColor, shape: const StadiumBorder()),
@@ -121,6 +137,24 @@ class _State extends State<LoginPage> {
             ),
             const SizedBox(
               height: 10,
+            ),
+            Container(
+              height: 40,
+              alignment: Alignment.center,
+              child: TextButton(
+                child: const Text(
+                  "Esqueceu a senha?",
+                  textAlign: TextAlign.right,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ResetPasswordPage(),
+                    ),
+                  );
+                },
+              ),
             ),
             SizedBox(
               height: 40,

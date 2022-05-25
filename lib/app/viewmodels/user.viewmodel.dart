@@ -1,3 +1,4 @@
+import 'package:firenzery/app/interfaces/locale_storage.interface.dart';
 import 'package:firenzery/app/interfaces/user.interface.dart';
 import 'package:firenzery/app/models/login.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
@@ -5,7 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UserViewModel {
-  final IUser service;
+  final IUser userService;
+  final ILocaleStorage localeService;
 
   final userModel = ValueNotifier<UserModel>(UserModel(
       idClient: null,
@@ -19,10 +21,10 @@ class UserViewModel {
   final loginModel =
       ValueNotifier<LoginModel>(LoginModel(passed: null, message: null));
 
-  UserViewModel(this.service);
+  UserViewModel(this.userService, this.localeService);
 
   getUser(id) async {
-    var resp = await service.getUser(id);
+    var resp = await userService.getUser(id);
 
     userModel.value = UserModel.fromJson(resp);
 
@@ -31,7 +33,7 @@ class UserViewModel {
 
   register(UserModel user) async {
     try {
-      var resp = await service.register(user);
+      var resp = await userService.register(user);
 
       userModel.value = UserModel.fromJson(resp.data);
 
@@ -42,10 +44,18 @@ class UserViewModel {
   }
 
   login(email, password) async {
-    var resp = await service.login(email, password);
+    var resp = await userService.login(email, password);
 
     loginModel.value = LoginModel.fromJson(resp.data);
 
     return resp;
+  }
+
+  saveCredentialsLocale(key, value) async {
+    await localeService.addValue(key, value);
+  }
+
+  getCredentialsLocale(key) async {
+    return await localeService.getValue(key);
   }
 }

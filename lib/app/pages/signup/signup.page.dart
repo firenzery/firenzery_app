@@ -2,6 +2,7 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/signup/components/text_form.component.dart';
 import 'package:firenzery/app/pages/signup/signup.controller.dart';
+import 'package:firenzery/app/services/local/shared_preferences.service.dart';
 import 'package:firenzery/app/services/remote/client_http.service.dart';
 import 'package:firenzery/app/services/remote/user.service.dart';
 import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
@@ -18,8 +19,8 @@ class SignupPage extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<SignupPage> {
-  final controller =
-      SignUpController(UserViewModel(UserService(ClientHttpSevice())));
+  final controller = SignUpController(UserViewModel(
+      UserService(ClientHttpSevice()), SharedPreferencesService()));
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

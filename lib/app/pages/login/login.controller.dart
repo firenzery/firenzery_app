@@ -32,12 +32,17 @@ class LoginController extends LoginPage {
 
   ValueNotifier<LoginModel> get loginModel => viewModel.loginModel;
 
-  login(email, password, context) async {
+  login(email, password, context, keepConnected) async {
     if (!email.contains('@') || !email.contains('.com')) {
       showAlertDialog(context, 'Email Invalido!', 'Login');
     } else {
       try {
         var response = await viewModel.login(email, password);
+
+        if (keepConnected) {
+          await viewModel.saveCredentialsLocale('email', email);
+          await viewModel.saveCredentialsLocale('password', password);
+        }
 
         if (response.statusCode == 200) {
           if (loginModel.value.passed == 1) {
