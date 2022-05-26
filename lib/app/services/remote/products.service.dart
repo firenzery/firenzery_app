@@ -1,7 +1,6 @@
 import 'package:firenzery/app/interfaces/client_http.interface.dart';
 import 'package:firenzery/app/interfaces/products.interface.dart';
 import 'package:firenzery/app/shared/config.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ProductsService implements IProducts {
   final IClientHttp client;

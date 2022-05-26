@@ -1,8 +1,4 @@
 import 'package:firenzery/app/services/local/shared_preferences.service.dart';
-import 'package:firenzery/app/services/remote/categories.service.dart';
-import 'package:firenzery/app/services/remote/products.service.dart';
-import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
-import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -14,10 +10,11 @@ import '../signup/signup.page.dart';
 import 'login.controller.dart';
 
 class LoginPage extends StatefulWidget {
-  final allProducts;
-  final allCategories;
+  final List allProducts;
+  final List allCategories;
 
-  LoginPage(this.allCategories, this.allProducts);
+  const LoginPage(this.allCategories, this.allProducts, {Key? key})
+      : super(key: key);
 
   @override
   State<LoginPage> createState() => _State();
@@ -111,7 +108,7 @@ class _State extends State<LoginPage> {
                     });
                   },
                 ),
-                Text('Manter conectado'),
+                const Text('Manter conectado'),
               ],
             ),
             const SizedBox(

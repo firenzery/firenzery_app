@@ -1,17 +1,15 @@
-import 'package:firenzery/app/models/category.model.dart';
-import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/home/home.page.dart';
 import 'package:firenzery/app/pages/person/person.page.dart';
 import 'package:firenzery/app/pages/requests/requests.page.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class NavigationBarComponent extends StatefulWidget {
   final List categories;
   final List products;
-  const NavigationBarComponent(this.categories, this.products);
+
+  const NavigationBarComponent(this.categories, this.products, {Key? key})
+      : super(key: key);
 
   @override
   State<NavigationBarComponent> createState() =>
@@ -30,14 +28,14 @@ class NavigationBarState extends State<NavigationBarComponent> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _tabs = [
+    final List<Widget> tabs = [
       HomePage(categories, products),
       const RequestsPage(),
       PersonPage(categories, products)
     ];
 
     return Scaffold(
-      body: _tabs[_currentTab],
+      body: tabs[_currentTab],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: primaryColor,
         fixedColor: Colors.white,

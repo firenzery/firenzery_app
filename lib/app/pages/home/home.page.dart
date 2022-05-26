@@ -19,9 +19,11 @@ class HomePage extends StatefulWidget {
   final List allCategories;
   final List allProducts;
 
-  HomePage(this.allCategories, this.allProducts);
+  // ignore: use_key_in_widget_constructors
+  const HomePage(this.allCategories, this.allProducts);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 

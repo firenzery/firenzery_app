@@ -1,4 +1,3 @@
-import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/details/details.page.dart';
 import 'package:firenzery/app/pages/list_products/list_products.page.dart';
 import 'package:firenzery/constants.dart';
@@ -9,7 +8,9 @@ import 'section_title.dart';
 class NewArrivalProducts extends StatelessWidget {
   final List newProductsList;
   final int categoryId;
-  const NewArrivalProducts(this.newProductsList, this.categoryId);
+
+  const NewArrivalProducts(this.newProductsList, this.categoryId, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

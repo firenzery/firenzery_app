@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:firenzery/app/interfaces/categories.interface.dart';
 import 'package:firenzery/app/models/category.model.dart';
-import 'package:flutter/material.dart';
 
 class CategoriesViewModel {
   ICategories service;

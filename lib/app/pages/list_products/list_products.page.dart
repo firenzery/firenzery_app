@@ -1,4 +1,3 @@
-import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/details/details.page.dart';
 import 'package:firenzery/app/pages/home/components/product_card.dart';
 import 'package:firenzery/app/pages/list_products/list_products.controller.dart';
@@ -10,7 +9,9 @@ class ListProductsPage extends StatelessWidget {
   final int categoryId;
   final String title;
 
-  ListProductsPage(this.allProducts, this.categoryId, this.title);
+  const ListProductsPage(this.allProducts, this.categoryId, this.title,
+      {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

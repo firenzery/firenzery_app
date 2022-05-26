@@ -15,7 +15,8 @@ class SignupPage extends StatefulWidget {
   final allCategories;
   final allProducts;
 
-  const SignupPage(this.allCategories, this.allProducts);
+  const SignupPage(this.allCategories, this.allProducts, {Key? key})
+      : super(key: key);
 
   @override
   State<SignupPage> createState() => _SignupPageState();

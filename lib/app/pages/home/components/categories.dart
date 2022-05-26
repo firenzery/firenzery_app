@@ -1,5 +1,3 @@
-import 'package:firenzery/app/models/category.model.dart';
-import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/list_products/list_products.page.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class Categories extends StatelessWidget {
   final List categories;
   final List allProducts;
-  Categories(this.categories, this.allProducts);
+  const Categories(this.categories, this.allProducts, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

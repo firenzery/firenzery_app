@@ -5,8 +5,8 @@ import 'package:firenzery/app/pages/splash/splash.page.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
+// ignore: must_be_immutable
 class SplashController extends SplashPage {
   final ProductsViewModel productsViewModel;
   final CategoriesViewModel categoriesViewModel;
@@ -21,7 +21,9 @@ class SplashController extends SplashPage {
   String? password;
 
   SplashController(
-      this.service, this.categoriesViewModel, this.productsViewModel);
+      this.service, this.categoriesViewModel, this.productsViewModel,
+      {Key? key})
+      : super(key: key);
 
   verifyKeppConect() async {
     try {
@@ -51,7 +53,7 @@ class SplashController extends SplashPage {
     values = await getValues();
     verify = await verifyKeppConect();
 
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
 
     if (verify!) {
       Navigator.push(

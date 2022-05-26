@@ -1,15 +1,8 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
-import 'package:firenzery/app/models/category.model.dart';
-import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
-import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
-import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/login.model.dart';
 import '../../viewmodels/user.viewmodel.dart';
-
-import '../home/home.page.dart';
 import 'components/alertDialog.dart';
 
 class LoginController extends LoginPage {

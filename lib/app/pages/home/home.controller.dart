@@ -1,10 +1,10 @@
-import 'dart:math';
 import 'package:firenzery/app/models/category.model.dart';
 import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/home/home.page.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 
+// ignore: must_be_immutable
 class HomeController extends HomePage {
   final ProductsViewModel productsViewModel;
   final CategoriesViewModel categoriesViewModel;

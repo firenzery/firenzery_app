@@ -12,10 +12,10 @@ class CategoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['icon'] = this.icon;
-    data['title'] = this.title;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['icon'] = icon;
+    data['title'] = title;
+    data['type'] = type;
     return data;
   }
 }

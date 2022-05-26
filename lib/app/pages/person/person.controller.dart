@@ -3,6 +3,7 @@ import 'package:firenzery/app/pages/login/login.page.dart';
 import 'package:firenzery/app/pages/person/person.page.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class PersonController extends PersonPage {
   ILocaleStorage service;
 

@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 class PersonPage extends StatefulWidget {
   final List allCategories;
   final List allProducts;
-  PersonPage(this.allCategories, this.allProducts);
+
+  const PersonPage(this.allCategories, this.allProducts, {Key? key})
+      : super(key: key);
 
   @override
   State<PersonPage> createState() => _PersonPageState();
