@@ -14,8 +14,6 @@ import 'components/alertDialog.dart';
 
 class LoginController extends LoginPage {
   final UserViewModel viewModel;
-  final ProductsViewModel productsViewModel;
-  final CategoriesViewModel categoriesViewModel;
 
   List allProducts = [ProductModel(image: '', name: '', type: 0, price: 0.00)];
 
@@ -27,12 +25,12 @@ class LoginController extends LoginPage {
     )
   ];
 
-  LoginController(
-      this.viewModel, this.productsViewModel, this.categoriesViewModel);
+  LoginController(this.viewModel) : super([], []);
 
   ValueNotifier<LoginModel> get loginModel => viewModel.loginModel;
 
-  login(email, password, context, keepConnected) async {
+  login(email, password, context, keepConnected, allCategories,
+      allProducts) async {
     if (!email.contains('@') || !email.contains('.com')) {
       showAlertDialog(context, 'Email Invalido!', 'Login');
     } else {
@@ -46,7 +44,6 @@ class LoginController extends LoginPage {
 
         if (response.statusCode == 200) {
           if (loginModel.value.passed == 1) {
-            await getValues();
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -62,16 +59,6 @@ class LoginController extends LoginPage {
       } catch (error) {
         showAlertDialog(context, 'Erro no servidor!', 'Login');
       }
-    }
-  }
-
-  getValues() async {
-    try {
-      allCategories = await categoriesViewModel.getAllCategories();
-      allProducts = await productsViewModel.getAllProducts();
-      return [allCategories, allProducts];
-    } catch (error) {
-      return error;
     }
   }
 }

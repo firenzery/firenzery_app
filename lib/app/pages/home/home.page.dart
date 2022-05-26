@@ -22,15 +22,10 @@ class HomePage extends StatefulWidget {
   HomePage(this.allCategories, this.allProducts);
 
   @override
-  _HomePageState createState() => _HomePageState(allCategories, allProducts);
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final List categories;
-  final List products;
-
-  _HomePageState(this.categories, this.products);
-
   final controller = HomeController(
       ProductsViewModel(ProductsService(ClientHttpSevice())),
       CategoriesViewModel(CategoriesService(ClientHttpSevice())), [
@@ -97,11 +92,13 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(vertical: defaultPadding),
                 child: SearchForm(),
               ),
-              Categories(categories, products),
+              Categories(widget.allCategories, widget.allProducts),
               NewArrivalProducts(
-                  controller.getFiveProductsbyCategory(products, 1), 1),
+                  controller.getFiveProductsbyCategory(widget.allProducts, 1),
+                  1),
               PopularProducts(
-                  controller.getFiveProductsbyCategory(products, 1), 1),
+                  controller.getFiveProductsbyCategory(widget.allProducts, 1),
+                  1),
             ],
           ),
         ));

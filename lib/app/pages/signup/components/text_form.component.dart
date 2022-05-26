@@ -43,6 +43,7 @@ class TextFormComponent extends StatelessWidget {
         keyboardType: keyboardType,
         controller: controller,
         inputFormatters: inputFormatters,
+        obscureText: isObscured ?? false,
         validator: valid,
         onChanged: change);
   }

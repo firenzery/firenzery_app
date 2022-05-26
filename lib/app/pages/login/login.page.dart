@@ -14,7 +14,10 @@ import '../signup/signup.page.dart';
 import 'login.controller.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final allProducts;
+  final allCategories;
+
+  LoginPage(this.allCategories, this.allProducts);
 
   @override
   State<LoginPage> createState() => _State();
@@ -23,8 +26,6 @@ class LoginPage extends StatefulWidget {
 class _State extends State<LoginPage> {
   final controller = LoginController(
     UserViewModel(UserService(ClientHttpSevice()), SharedPreferencesService()),
-    ProductsViewModel(ProductsService(ClientHttpSevice())),
-    CategoriesViewModel(CategoriesService(ClientHttpSevice())),
   );
 
   String email = '';
@@ -125,7 +126,8 @@ class _State extends State<LoginPage> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        controller.login(email, password, context, isChecked);
+                        controller.login(email, password, context, isChecked,
+                            widget.allCategories, widget.allProducts);
                       },
                       style: ElevatedButton.styleFrom(
                           primary: primaryColor, shape: const StadiumBorder()),
@@ -167,7 +169,8 @@ class _State extends State<LoginPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SignupPage(),
+                      builder: (context) =>
+                          SignupPage(widget.allCategories, widget.allProducts),
                     ),
                   );
                 },

@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 class SignUpController extends SignupPage {
   final UserViewModel viewModel;
 
-  const SignUpController(this.viewModel);
+  const SignUpController(this.viewModel) : super(null, null);
 
   ValueNotifier<UserModel> get registerModel => viewModel.userModel;
 
-  register(context, UserModel user) async {
+  register(context, UserModel user, allCategories, allProducts) async {
     try {
       var response = await viewModel.register(user);
 
@@ -20,7 +20,7 @@ class SignUpController extends SignupPage {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const LoginPage(),
+            builder: (context) => LoginPage(allCategories, allProducts),
           ),
         );
       } else {

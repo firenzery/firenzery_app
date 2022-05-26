@@ -1,8 +1,13 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
+import 'package:firenzery/app/pages/splash/splash.page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -14,6 +19,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LoginPage());
+        home: SplashPage());
   }
 }

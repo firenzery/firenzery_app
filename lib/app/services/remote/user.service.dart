@@ -1,10 +1,12 @@
 import 'package:firenzery/app/interfaces/client_http.interface.dart';
 import 'package:firenzery/app/interfaces/user.interface.dart';
 import 'package:firenzery/app/models/user.model.dart';
+import 'package:firenzery/app/shared/config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class UserService implements IUser {
   final IClientHttp client;
-  final String url = "http://192.168.100.11:8080";
+  String? url = Config.baseUrl;
 
   UserService(this.client);
 

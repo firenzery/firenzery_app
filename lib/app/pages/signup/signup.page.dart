@@ -12,13 +12,16 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class SignupPage extends StatefulWidget {
-  const SignupPage({Key? key}) : super(key: key);
+  final allCategories;
+  final allProducts;
+
+  const SignupPage(this.allCategories, this.allProducts);
 
   @override
-  State<SignupPage> createState() => _MyWidgetState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _MyWidgetState extends State<SignupPage> {
+class _SignupPageState extends State<SignupPage> {
   final controller = SignUpController(UserViewModel(
       UserService(ClientHttpSevice()), SharedPreferencesService()));
 
@@ -239,7 +242,8 @@ class _MyWidgetState extends State<SignupPage> {
                         if (!_formKey.currentState!.validate()) {
                           return;
                         } else {
-                          controller.register(context, user);
+                          controller.register(context, user,
+                              widget.allCategories, widget.allProducts);
                         }
                       },
                       style: ElevatedButton.styleFrom(
