@@ -15,16 +15,6 @@ import 'components/alertDialog.dart';
 class LoginController extends LoginPage {
   final UserViewModel viewModel;
 
-  List allProducts = [ProductModel(image: '', name: '', type: 0, price: 0.00)];
-
-  List allCategories = [
-    CategoryModel(
-      icon: '',
-      title: '',
-      type: 0,
-    )
-  ];
-
   LoginController(this.viewModel) : super([], []);
 
   ValueNotifier<LoginModel> get loginModel => viewModel.loginModel;

@@ -33,7 +33,7 @@ class NavigationBarState extends State<NavigationBarComponent> {
     final List<Widget> _tabs = [
       HomePage(categories, products),
       const RequestsPage(),
-      const PersonPage()
+      PersonPage(categories, products)
     ];
 
     return Scaffold(
