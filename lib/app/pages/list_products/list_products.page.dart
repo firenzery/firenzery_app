@@ -28,27 +28,31 @@ class ListProductsPage extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        body: GridView.count(
-            crossAxisCount: 2,
-            children: List.generate(
-              productsList.length,
-              (index) => Padding(
-                padding: const EdgeInsets.only(
-                    right: defaultPadding, top: defaultPadding),
-                child: ProductCard(
-                  title: productsList[index].name,
-                  image: productsList[index].image,
-                  price: productsList[index].price,
-                  press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetailsPage(product: productsList[index]),
-                        ));
-                  },
-                ),
-              ),
-            )));
+        body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            padding: const EdgeInsets.all(defaultPadding),
+            child: GridView.count(
+                crossAxisCount: 2,
+                children: List.generate(
+                  productsList.length,
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(
+                        right: defaultPadding, top: defaultPadding),
+                    child: ProductCard(
+                      title: productsList[index].name,
+                      image: productsList[index].image,
+                      price: productsList[index].price,
+                      press: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailsPage(product: productsList[index]),
+                            ));
+                      },
+                    ),
+                  ),
+                ))));
   }
 }

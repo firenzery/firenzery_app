@@ -62,7 +62,11 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
+        body: SingleChildScrollView(
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      padding: const EdgeInsets.all(defaultPadding),
+      child: Form(
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -259,6 +263,6 @@ class _SignupPageState extends State<SignupPage> {
           ]),
         ),
       ),
-    );
+    ));
   }
 }
