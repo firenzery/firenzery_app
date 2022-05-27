@@ -1,7 +1,9 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/interfaces/locale_storage.interface.dart';
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
 import 'package:firenzery/app/pages/splash/splash.page.dart';
+import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/material.dart';
 class SplashController extends SplashPage {
   final ProductsViewModel productsViewModel;
   final CategoriesViewModel categoriesViewModel;
+  final AdressViewModel adressViewModel;
 
   ILocaleStorage service;
   List allCategories = [];
@@ -20,8 +23,8 @@ class SplashController extends SplashPage {
   String? email;
   String? password;
 
-  SplashController(
-      this.service, this.categoriesViewModel, this.productsViewModel,
+  SplashController(this.service, this.categoriesViewModel,
+      this.productsViewModel, this.adressViewModel,
       {Key? key})
       : super(key: key);
 
@@ -56,11 +59,13 @@ class SplashController extends SplashPage {
     await Future.delayed(const Duration(milliseconds: 2000), () {});
 
     if (verify!) {
+      var idClient = await service.getValue('idClient');
+      var adress = await adressViewModel.getAdress(idClient);
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                NavigationBarComponent(allCategories, allProducts)),
+            builder: (context) => NavigationBarComponent(
+                allCategories, allProducts, adress, idClient)),
       );
     } else {
       Navigator.push(

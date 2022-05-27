@@ -1,5 +1,7 @@
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/category.model.dart';
 import 'package:firenzery/app/models/product.model.dart';
+import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/cart/cart.page.dart';
 import 'package:firenzery/app/pages/home/home.controller.dart';
 import 'package:firenzery/app/services/remote/categories.service.dart';
@@ -18,9 +20,12 @@ import 'components/search_form.dart';
 class HomePage extends StatefulWidget {
   final List allCategories;
   final List allProducts;
+  final AdressModel adress;
+  final int idClient;
 
   // ignore: use_key_in_widget_constructors
-  const HomePage(this.allCategories, this.allProducts);
+  const HomePage(
+      this.allCategories, this.allProducts, this.adress, this.idClient);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -28,20 +33,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = HomeController(
-      ProductsViewModel(ProductsService(ClientHttpSevice())),
-      CategoriesViewModel(CategoriesService(ClientHttpSevice())), [
-    CategoryModel(
-      icon: '',
-      title: '',
-      type: 0,
-    )
-  ], [
-    ProductModel(image: '', name: '', type: 0, price: 0.00)
-  ]);
-
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController(
+        ProductsViewModel(ProductsService(ClientHttpSevice())),
+        CategoriesViewModel(CategoriesService(ClientHttpSevice())),
+        [],
+        [],
+        widget.adress,
+        widget.idClient);
+
+    bool verifyAdress = widget.adress.idClient != null;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: primaryColor,
@@ -51,10 +54,27 @@ class _HomePageState extends State<HomePage> {
             children: [
               SvgPicture.asset("assets/icons/Location.svg"),
               const SizedBox(width: defaultPadding / 2),
-              Text(
-                "APARTAMENTO 142 GRUPO 15",
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
+              InkWell(
+                child: Text(
+                  verifyAdress
+                      ? '${widget.adress.apartment} GRUPO ${widget.adress.group}'
+                      : 'CADASTRAR ENDEREÇO',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AdressPage(
+                              widget.adress,
+                              widget.idClient,
+                              widget.allCategories,
+                              widget.allProducts)));
+                },
+              )
             ],
           ),
           actions: [

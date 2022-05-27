@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class ProductsViewModel {
   final productModel = ValueNotifier<ProductModel>(
-      ProductModel(image: '', name: '', price: 0.00, type: 0));
+      ProductModel(image: null, name: null, price: null, type: null));
 
   IProducts service;
 

@@ -1,6 +1,8 @@
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/category.model.dart';
 import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/pages/home/home.page.dart';
+import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 
@@ -9,19 +11,14 @@ class HomeController extends HomePage {
   final ProductsViewModel productsViewModel;
   final CategoriesViewModel categoriesViewModel;
 
-  List products = [ProductModel(image: '', name: '', type: 0, price: 0.00)];
-
-  List categories = [
-    CategoryModel(
-      icon: '',
-      title: '',
-      type: 0,
-    )
-  ];
+  AdressModel adress;
+  int idClient;
+  List products;
+  List categories;
 
   HomeController(this.productsViewModel, this.categoriesViewModel,
-      this.categories, this.products)
-      : super(categories, products);
+      this.categories, this.products, this.adress, this.idClient)
+      : super(categories, products, adress, idClient);
 
   getFiveProductsbyCategory(allProducts, categoryId) {
     return allProducts

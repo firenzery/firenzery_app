@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/signup/components/text_form.component.dart';
 import 'package:firenzery/app/pages/signup/signup.controller.dart';

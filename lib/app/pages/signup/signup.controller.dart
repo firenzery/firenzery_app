@@ -1,3 +1,4 @@
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/login/components/alertDialog.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 class SignUpController extends SignupPage {
   final UserViewModel viewModel;
 
-  const SignUpController(this.viewModel) : super(null, null);
+  SignUpController(this.viewModel) : super(null, null);
 
   ValueNotifier<UserModel> get registerModel => viewModel.userModel;
 

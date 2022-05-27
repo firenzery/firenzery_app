@@ -1,4 +1,7 @@
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/services/local/shared_preferences.service.dart';
+import 'package:firenzery/app/services/remote/adress.service.dart';
+import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +25,9 @@ class LoginPage extends StatefulWidget {
 
 class _State extends State<LoginPage> {
   final controller = LoginController(
-    UserViewModel(UserService(ClientHttpSevice()), SharedPreferencesService()),
-  );
+      UserViewModel(
+          UserService(ClientHttpSevice()), SharedPreferencesService()),
+      AdressViewModel(AdressService(ClientHttpSevice())));
 
   String email = '';
   String password = '';
@@ -123,7 +127,7 @@ class _State extends State<LoginPage> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        controller.login(email, password, context, isChecked,
+                        controller.login(context, email, password, isChecked,
                             widget.allCategories, widget.allProducts);
                       },
                       style: ElevatedButton.styleFrom(

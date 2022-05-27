@@ -1,3 +1,4 @@
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/pages/person/person.controller.dart';
 import 'package:firenzery/app/services/local/shared_preferences.service.dart';
 import 'package:firenzery/constants.dart';
@@ -6,8 +7,10 @@ import 'package:flutter/material.dart';
 class PersonPage extends StatefulWidget {
   final List allCategories;
   final List allProducts;
+  final AdressModel adress;
 
-  const PersonPage(this.allCategories, this.allProducts, {Key? key})
+  const PersonPage(this.allCategories, this.allProducts, this.adress,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -36,8 +39,8 @@ class _PersonPageState extends State<PersonPage> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        controller.exit(
-                            context, widget.allCategories, widget.allProducts);
+                        controller.exit(context, widget.allCategories,
+                            widget.allProducts, widget.adress);
                       },
                       style: ElevatedButton.styleFrom(
                           primary: primaryColor, shape: const StadiumBorder()),

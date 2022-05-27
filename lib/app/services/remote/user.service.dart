@@ -10,7 +10,7 @@ class UserService implements IUser {
   UserService(this.client);
 
   @override
-  Future getUser(int id) async {
+  Future getUser(id) async {
     return await client.get("$url/client/$id");
   }
 

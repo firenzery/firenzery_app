@@ -1,37 +1,45 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
+import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:flutter/material.dart';
 import '../../models/login.model.dart';
 import '../../viewmodels/user.viewmodel.dart';
 import 'components/alertDialog.dart';
 
 class LoginController extends LoginPage {
-  final UserViewModel viewModel;
+  final UserViewModel userViewModel;
+  final AdressViewModel adressViewModel;
 
-  LoginController(this.viewModel) : super([], []);
+  LoginController(this.userViewModel, this.adressViewModel) : super([], []);
 
-  ValueNotifier<LoginModel> get loginModel => viewModel.loginModel;
+  ValueNotifier<LoginModel> get loginModel => userViewModel.loginModel;
+  ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
 
-  login(email, password, context, keepConnected, allCategories,
+  login(context, email, password, keepConnected, allCategories,
       allProducts) async {
     if (!email.contains('@') || !email.contains('.com')) {
       showAlertDialog(context, 'Email Invalido!', 'Login');
     } else {
       try {
-        var response = await viewModel.login(email, password);
+        var response = await userViewModel.login(email, password);
 
         if (keepConnected) {
-          await viewModel.saveCredentialsLocale('email', email);
-          await viewModel.saveCredentialsLocale('password', password);
+          await userViewModel.saveCredentialsLocale(
+              'idClient', loginModel.value.idClient);
+          await userViewModel.saveCredentialsLocale('email', email);
+          await userViewModel.saveCredentialsLocale('password', password);
         }
 
         if (response.statusCode == 200) {
+          var adress =
+              await adressViewModel.getAdress(loginModel.value.idClient);
           if (loginModel.value.passed == 1) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      NavigationBarComponent(allCategories, allProducts)),
+                  builder: (context) => NavigationBarComponent(allCategories,
+                      allProducts, adress, loginModel.value.idClient!)),
             );
           } else {
             showAlertDialog(context, loginModel.value.message ?? '', 'Login');

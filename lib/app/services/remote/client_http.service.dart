@@ -18,4 +18,10 @@ class ClientHttpSevice implements IClientHttp {
     var response = await dio.post(url, data: body);
     return response;
   }
+
+  @override
+  Future put(String url, Object body) async {
+    var response = await dio.put(url, data: body);
+    return response;
+  }
 }

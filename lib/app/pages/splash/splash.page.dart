@@ -1,8 +1,10 @@
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
 import 'package:firenzery/app/services/local/shared_preferences.service.dart';
+import 'package:firenzery/app/services/remote/adress.service.dart';
 import 'package:firenzery/app/services/remote/categories.service.dart';
 import 'package:firenzery/app/services/remote/client_http.service.dart';
 import 'package:firenzery/app/services/remote/products.service.dart';
+import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +18,10 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   final controller = SplashController(
-    SharedPreferencesService(),
-    CategoriesViewModel(CategoriesService(ClientHttpSevice())),
-    ProductsViewModel(ProductsService(ClientHttpSevice())),
-  );
+      SharedPreferencesService(),
+      CategoriesViewModel(CategoriesService(ClientHttpSevice())),
+      ProductsViewModel(ProductsService(ClientHttpSevice())),
+      AdressViewModel(AdressService(ClientHttpSevice())));
 
   @override
   void initState() {

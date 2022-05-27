@@ -1,3 +1,4 @@
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/pages/home/home.page.dart';
 import 'package:firenzery/app/pages/person/person.page.dart';
 import 'package:firenzery/app/pages/requests/requests.page.dart';
@@ -7,21 +8,19 @@ import 'package:flutter/material.dart';
 class NavigationBarComponent extends StatefulWidget {
   final List categories;
   final List products;
+  final AdressModel adress;
+  final int idClient;
 
-  const NavigationBarComponent(this.categories, this.products, {Key? key})
+  const NavigationBarComponent(
+      this.categories, this.products, this.adress, this.idClient,
+      {Key? key})
       : super(key: key);
 
   @override
-  State<NavigationBarComponent> createState() =>
-      NavigationBarState(categories, products);
+  State<NavigationBarComponent> createState() => NavigationBarState();
 }
 
 class NavigationBarState extends State<NavigationBarComponent> {
-  final List categories;
-  final List products;
-
-  NavigationBarState(this.categories, this.products);
-
   int _currentTab = 0;
 
   bool loadedOnceFromRoute = false;
@@ -29,9 +28,10 @@ class NavigationBarState extends State<NavigationBarComponent> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> tabs = [
-      HomePage(categories, products),
+      HomePage(
+          widget.categories, widget.products, widget.adress, widget.idClient),
       const RequestsPage(),
-      PersonPage(categories, products)
+      PersonPage(widget.categories, widget.products, widget.adress)
     ];
 
     return Scaffold(

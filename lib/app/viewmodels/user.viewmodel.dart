@@ -26,9 +26,9 @@ class UserViewModel {
   getUser(id) async {
     var resp = await userService.getUser(id);
 
-    userModel.value = UserModel.fromJson(resp);
+    userModel.value = UserModel.fromJson(resp.data);
 
-    return resp;
+    return userModel.value;
   }
 
   register(UserModel user) async {
