@@ -2,6 +2,7 @@ import 'package:firenzery/app/interfaces/client_http.interface.dart';
 import 'package:firenzery/app/interfaces/user.interface.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/shared/config.dart';
+import 'dart:convert' as convert;
 
 class UserService implements IUser {
   final IClientHttp client;
@@ -16,8 +17,12 @@ class UserService implements IUser {
 
   @override
   Future login(String email, String password) async {
-    return await client
-        .post("$url/client/login", {"email": email, "password": password});
+    try {
+      return await client
+          .post("$url/client/login", {"email": email, "password": password});
+    } catch (error) {
+      return error;
+    }
   }
 
   @override

@@ -10,6 +10,10 @@ class CategoriesService implements ICategories {
 
   @override
   Future getAllCategories() async {
-    return await client.get("$url/categories");
+    try {
+      return await client.get("$url/categories");
+    } catch (error) {
+      throw error;
+    }
   }
 }

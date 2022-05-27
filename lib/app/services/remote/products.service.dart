@@ -10,6 +10,10 @@ class ProductsService implements IProducts {
 
   @override
   Future getAllProducts() async {
-    return await client.get("$url/products");
+    try {
+      return await client.get("$url/products");
+    } catch (error) {
+      throw error;
+    }
   }
 }

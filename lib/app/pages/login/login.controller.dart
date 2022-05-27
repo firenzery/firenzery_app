@@ -1,9 +1,9 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/models/address.model.dart';
+import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:flutter/material.dart';
-import '../../models/login.model.dart';
 import '../../viewmodels/user.viewmodel.dart';
 import 'components/alertDialog.dart';
 
@@ -13,7 +13,7 @@ class LoginController extends LoginPage {
 
   LoginController(this.userViewModel, this.adressViewModel) : super([], []);
 
-  ValueNotifier<LoginModel> get loginModel => userViewModel.loginModel;
+  ValueNotifier<UserModel> get userModel => userViewModel.userModel;
   ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
 
   login(context, email, password, keepConnected, allCategories,
@@ -22,33 +22,29 @@ class LoginController extends LoginPage {
       showAlertDialog(context, 'Email Invalido!', 'Login');
     } else {
       try {
-        var response = await userViewModel.login(email, password);
+        var resp = await userViewModel.login(email, password);
 
-        if (keepConnected) {
-          await userViewModel.saveCredentialsLocale(
-              'idClient', loginModel.value.idClient);
-          await userViewModel.saveCredentialsLocale('email', email);
-          await userViewModel.saveCredentialsLocale('password', password);
-        }
-
-        if (response.statusCode == 200) {
-          var adress =
-              await adressViewModel.getAdress(loginModel.value.idClient);
-          if (loginModel.value.passed == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => NavigationBarComponent(allCategories,
-                      allProducts, adress, loginModel.value.idClient!)),
-            );
-          } else {
-            showAlertDialog(context, loginModel.value.message ?? '', 'Login');
+        if (resp.statusCode == 200) {
+          if (keepConnected) {
+            await userViewModel.saveCredentialsLocale(
+                'idClient', userModel.value.idClient);
+            await userViewModel.saveCredentialsLocale('email', email);
+            await userViewModel.saveCredentialsLocale('password', password);
           }
+
+          await adressViewModel.getAdress(userModel.value.idClient);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NavigationBarComponent(allCategories,
+                    allProducts, adressModel.value, userModel.value)),
+          );
         } else {
-          showAlertDialog(context, 'Erro na requisicao!', 'Login');
+          showAlertDialog(context, resp.body, 'Login');
         }
       } catch (error) {
-        showAlertDialog(context, 'Erro no servidor!', 'Login');
+        showAlertDialog(context, 'Erro no Servidor!', 'Login');
       }
     }
   }

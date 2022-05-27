@@ -1,9 +1,9 @@
 import 'package:firenzery/app/interfaces/locale_storage.interface.dart';
 import 'package:firenzery/app/interfaces/user.interface.dart';
-import 'package:firenzery/app/models/login.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert' as convert;
 
 class UserViewModel {
   final IUser userService;
@@ -18,28 +18,31 @@ class UserViewModel {
       cpf: null,
       nrPhone: null));
 
-  final loginModel =
-      ValueNotifier<LoginModel>(LoginModel(passed: null, message: null));
-
   UserViewModel(this.userService, this.localeService);
 
   getUser(id) async {
-    var resp = await userService.getUser(id);
+    try {
+      var resp = await userService.getUser(id);
 
-    userModel.value = UserModel.fromJson(resp.data);
+      userModel.value = UserModel.fromJson(convert.jsonDecode(resp.body));
 
-    return userModel.value;
+      return resp;
+    } catch (error) {
+      throw error;
+    }
   }
 
   register(UserModel user) async {
     try {
       var resp = await userService.register(user);
 
-      userModel.value = UserModel.fromJson(resp.data);
+      if (resp.statusCode == 200) {
+        userModel.value = UserModel.fromJson(convert.jsonDecode(resp.body));
+      }
 
       return resp;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
 
@@ -47,11 +50,13 @@ class UserViewModel {
     try {
       var resp = await userService.login(email, password);
 
-      loginModel.value = LoginModel.fromJson(resp.data);
+      if (resp.statusCode == 200) {
+        userModel.value = UserModel.fromJson(convert.jsonDecode(resp.body));
+      }
 
       return resp;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
 

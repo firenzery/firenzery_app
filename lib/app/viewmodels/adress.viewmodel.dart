@@ -1,6 +1,7 @@
 import 'package:firenzery/app/interfaces/adress.interface.dart';
 import 'package:firenzery/app/models/address.model.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert' as convert;
 
 class AdressViewModel {
   IAdress service;
@@ -14,31 +15,37 @@ class AdressViewModel {
     try {
       var adress = await service.getAdress(clientId);
 
-      if (adress.data is String) {
-        return AdressModel();
-      }
+      adressModel.value = AdressModel.fromJson(convert.jsonDecode(adress.body));
 
-      adressModel.value = AdressModel.fromJson(adress.data);
-
-      return adressModel.value;
+      return adress;
     } catch (error) {
-      return AdressModel();
+      throw error;
     }
   }
 
   createAdress(adress) async {
-    var newAdress = await service.createAdress(adress);
+    try {
+      var newAdress = await service.createAdress(adress);
 
-    adressModel.value = AdressModel.fromJson(newAdress.data);
+      adressModel.value =
+          AdressModel.fromJson(convert.jsonDecode(newAdress.body));
 
-    return adressModel.value;
+      return newAdress;
+    } catch (error) {
+      throw error;
+    }
   }
 
   updateAdress(adress) async {
-    var newAdress = await service.updateAdress(adress);
+    try {
+      var newAdress = await service.updateAdress(adress);
 
-    adressModel.value = AdressModel.fromJson(newAdress.data);
+      adressModel.value =
+          AdressModel.fromJson(convert.jsonDecode(newAdress.body));
 
-    return adressModel.value;
+      return newAdress;
+    } catch (error) {
+      throw error;
+    }
   }
 }

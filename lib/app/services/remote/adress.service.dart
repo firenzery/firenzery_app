@@ -13,7 +13,7 @@ class AdressService implements IAdress {
     try {
       return await client.get("$url/adress/$clientId");
     } catch (error) {
-      return throw Error();
+      throw error;
     }
   }
 
@@ -22,7 +22,7 @@ class AdressService implements IAdress {
     try {
       return await client.put("$url/adress/update", adress);
     } catch (error) {
-      return throw Error();
+      throw error;
     }
   }
 
@@ -31,7 +31,7 @@ class AdressService implements IAdress {
     try {
       return await client.post("$url/adress", adress);
     } catch (error) {
-      return throw Error();
+      throw error;
     }
   }
 }

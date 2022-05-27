@@ -1,6 +1,7 @@
 import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/category.model.dart';
 import 'package:firenzery/app/models/product.model.dart';
+import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/cart/cart.page.dart';
 import 'package:firenzery/app/pages/home/home.controller.dart';
@@ -21,11 +22,10 @@ class HomePage extends StatefulWidget {
   final List allCategories;
   final List allProducts;
   final AdressModel adress;
-  final int idClient;
+  final UserModel user;
 
   // ignore: use_key_in_widget_constructors
-  const HomePage(
-      this.allCategories, this.allProducts, this.adress, this.idClient);
+  const HomePage(this.allCategories, this.allProducts, this.adress, this.user);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         [],
         [],
         widget.adress,
-        widget.idClient);
+        widget.user);
 
     bool verifyAdress = widget.adress.idClient != null;
 
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(
                           builder: (context) => AdressPage(
                               widget.adress,
-                              widget.idClient,
+                              widget.user,
                               widget.allCategories,
                               widget.allProducts)));
                 },

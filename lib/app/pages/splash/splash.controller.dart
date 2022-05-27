@@ -1,11 +1,13 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/interfaces/locale_storage.interface.dart';
 import 'package:firenzery/app/models/address.model.dart';
+import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
 import 'package:firenzery/app/pages/splash/splash.page.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -13,6 +15,7 @@ class SplashController extends SplashPage {
   final ProductsViewModel productsViewModel;
   final CategoriesViewModel categoriesViewModel;
   final AdressViewModel adressViewModel;
+  final UserViewModel userViewModel;
 
   ILocaleStorage service;
   List allCategories = [];
@@ -24,9 +27,12 @@ class SplashController extends SplashPage {
   String? password;
 
   SplashController(this.service, this.categoriesViewModel,
-      this.productsViewModel, this.adressViewModel,
+      this.productsViewModel, this.adressViewModel, this.userViewModel,
       {Key? key})
       : super(key: key);
+
+  ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
+  ValueNotifier<UserModel> get userModel => userViewModel.userModel;
 
   verifyKeppConect() async {
     try {
@@ -60,12 +66,13 @@ class SplashController extends SplashPage {
 
     if (verify!) {
       var idClient = await service.getValue('idClient');
-      var adress = await adressViewModel.getAdress(idClient);
+      await userViewModel.getUser(idClient);
+      await adressViewModel.getAdress(idClient);
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => NavigationBarComponent(
-                allCategories, allProducts, adress, idClient)),
+            builder: (context) => NavigationBarComponent(allCategories,
+                allProducts, adressModel.value, userModel.value)),
       );
     } else {
       Navigator.push(

@@ -1,6 +1,5 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/models/address.model.dart';
-import 'package:firenzery/app/models/login.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/login/components/alertDialog.dart';
@@ -13,20 +12,20 @@ class AdressController extends AdressPage {
   UserViewModel userViewModel;
 
   AdressController(this.adressViewModel, this.userViewModel)
-      : super(AdressModel(), null, [], []);
+      : super(AdressModel(), UserModel(), [], []);
 
   ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
 
-  updateAdress(context, newAdress, idClient, allCategories, allProducts) async {
+  updateAdress(context, newAdress, user, allCategories, allProducts) async {
     try {
-      var adress = await adressViewModel.updateAdress(newAdress);
+      await adressViewModel.updateAdress(newAdress);
 
-      if (adress.idAdress != null) {
+      if (adressModel.value.idAdress != null) {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => NavigationBarComponent(
-                  allCategories, allProducts, adress, idClient)),
+                  allCategories, allProducts, adressModel.value, user)),
         );
       }
     } catch (error) {
@@ -37,14 +36,15 @@ class AdressController extends AdressPage {
   createAdress(context, newAdress, idClient, allCategories, allProducts) async {
     try {
       newAdress.idClient = idClient;
-      var adress = await adressViewModel.createAdress(newAdress);
 
-      if (adress.idAdress > 0) {
+      await adressViewModel.createAdress(newAdress);
+
+      if (adressModel.value.idAdress != null) {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => NavigationBarComponent(
-                  allCategories, allProducts, adress, idClient)),
+                  allCategories, allProducts, adressModel.value, user)),
         );
       }
     } catch (error) {

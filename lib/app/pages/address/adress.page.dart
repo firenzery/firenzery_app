@@ -13,11 +13,10 @@ import 'package:flutter/material.dart';
 class AdressPage extends StatefulWidget {
   final List allProducts;
   final List allCategories;
-  final int? idClient;
+  final UserModel user;
   final AdressModel oldAdress;
 
-  AdressPage(
-      this.oldAdress, this.idClient, this.allCategories, this.allProducts);
+  AdressPage(this.oldAdress, this.user, this.allCategories, this.allProducts);
 
   @override
   State<AdressPage> createState() => _AdressPageState();
@@ -167,20 +166,20 @@ class _AdressPageState extends State<AdressPage> {
                                               group: int.parse(
                                                   _controllerGroup.text),
                                               block: _controllerBlock.text),
-                                          widget.idClient,
+                                          widget.user,
                                           widget.allCategories,
                                           widget.allProducts);
                                     } else {
                                       controller.createAdress(
                                           context,
                                           AdressModel(
-                                              idClient: widget.idClient,
+                                              idClient: widget.user.idClient,
                                               apartment: int.parse(
                                                   _controllerApartment.text),
                                               group: int.parse(
                                                   _controllerGroup.text),
                                               block: _controllerBlock.text),
-                                          widget.idClient,
+                                          widget.user,
                                           widget.allCategories,
                                           widget.allProducts);
                                     }

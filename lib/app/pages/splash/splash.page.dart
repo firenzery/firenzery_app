@@ -4,9 +4,11 @@ import 'package:firenzery/app/services/remote/adress.service.dart';
 import 'package:firenzery/app/services/remote/categories.service.dart';
 import 'package:firenzery/app/services/remote/client_http.service.dart';
 import 'package:firenzery/app/services/remote/products.service.dart';
+import 'package:firenzery/app/services/remote/user.service.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -21,7 +23,9 @@ class _SplashPageState extends State<SplashPage> {
       SharedPreferencesService(),
       CategoriesViewModel(CategoriesService(ClientHttpSevice())),
       ProductsViewModel(ProductsService(ClientHttpSevice())),
-      AdressViewModel(AdressService(ClientHttpSevice())));
+      AdressViewModel(AdressService(ClientHttpSevice())),
+      UserViewModel(
+          UserService(ClientHttpSevice()), SharedPreferencesService()));
 
   @override
   void initState() {
