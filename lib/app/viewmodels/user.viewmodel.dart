@@ -44,11 +44,15 @@ class UserViewModel {
   }
 
   login(email, password) async {
-    var resp = await userService.login(email, password);
+    try {
+      var resp = await userService.login(email, password);
 
-    loginModel.value = LoginModel.fromJson(resp.data);
+      loginModel.value = LoginModel.fromJson(resp.data);
 
-    return resp;
+      return resp;
+    } catch (error) {
+      return error;
+    }
   }
 
   saveCredentialsLocale(key, value) async {

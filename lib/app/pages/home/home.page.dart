@@ -57,9 +57,9 @@ class _HomePageState extends State<HomePage> {
               InkWell(
                 child: Text(
                   verifyAdress
-                      ? '${widget.adress.apartment} GRUPO ${widget.adress.group}'
+                      ? '${widget.adress.apartment}${widget.adress.block} GRUPO ${widget.adress.group}'
                       : 'CADASTRAR ENDEREÇO',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),

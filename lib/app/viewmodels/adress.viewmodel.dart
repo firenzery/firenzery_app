@@ -14,7 +14,7 @@ class AdressViewModel {
     try {
       var adress = await service.getAdress(clientId);
 
-      if (adress.data == '') {
+      if (adress.data is String) {
         return AdressModel();
       }
 
