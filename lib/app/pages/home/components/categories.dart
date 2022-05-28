@@ -62,7 +62,13 @@ class CategoryCard extends StatelessWidget {
             vertical: defaultPadding / 2, horizontal: defaultPadding / 4),
         child: Column(
           children: [
-            SvgPicture.asset(icon),
+            SvgPicture.network(
+              icon,
+              placeholderBuilder: (BuildContext context) =>
+                  const CircularProgressIndicator(
+                color: primaryColor,
+              ),
+            ),
             const SizedBox(height: defaultPadding / 2),
             Text(
               title,

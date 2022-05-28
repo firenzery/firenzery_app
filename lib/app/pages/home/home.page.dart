@@ -98,20 +98,20 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(width: defaultPadding * 4),
-              Text(
-                "Firenzery",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4!
-                    .copyWith(fontWeight: FontWeight.w500, color: Colors.black),
+              Padding(
+                padding: const EdgeInsets.only(top: defaultPadding / 2),
+                child: Text(
+                  "Firenzery",
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                      fontWeight: FontWeight.w500, color: Colors.black),
+                ),
               ),
               const Text(
                 "O melhor do parque firenzy",
                 style: TextStyle(fontSize: 18),
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: defaultPadding),
+                padding: EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
                 child: SearchForm(),
               ),
               Categories(widget.allCategories, widget.allProducts),
