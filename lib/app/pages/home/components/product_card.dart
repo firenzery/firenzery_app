@@ -32,9 +32,23 @@ class ProductCard extends StatelessWidget {
                 borderRadius:
                     BorderRadius.all(Radius.circular(defaultBorderRadius)),
               ),
-              child: Image.asset(
+              child: Image.network(
                 image,
                 height: 132,
+                fit: BoxFit.fill,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: primaryColor,
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: defaultPadding / 2),

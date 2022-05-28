@@ -17,10 +17,23 @@ class DetailsPage extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(height: defaultPadding * 3),
-          Image.asset(
+          Image.network(
             product.image!,
             height: MediaQuery.of(context).size.height * 0.4,
             fit: BoxFit.cover,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              );
+            },
           ),
           const SizedBox(height: defaultPadding * 1.5),
           Expanded(
