@@ -24,4 +24,20 @@ class ProductsViewModel {
       throw error;
     }
   }
+
+  getNewArrivalProducts() async {
+    try {
+      var response = await service.getNewArrivedProducts();
+
+      List newArrivedProducts = convert.jsonDecode(response.body);
+
+      newArrivedProducts = newArrivedProducts
+          .map((data) => ProductModel.fromJson(data))
+          .toList();
+
+      return newArrivedProducts;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

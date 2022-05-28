@@ -11,12 +11,10 @@ import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 
 class AdressPage extends StatefulWidget {
-  final List allProducts;
-  final List allCategories;
   final UserModel user;
   final AdressModel oldAdress;
 
-  AdressPage(this.oldAdress, this.user, this.allCategories, this.allProducts);
+  AdressPage(this.oldAdress, this.user);
 
   @override
   State<AdressPage> createState() => _AdressPageState();
@@ -166,9 +164,7 @@ class _AdressPageState extends State<AdressPage> {
                                               group: int.parse(
                                                   _controllerGroup.text),
                                               block: _controllerBlock.text),
-                                          widget.user,
-                                          widget.allCategories,
-                                          widget.allProducts);
+                                          widget.user);
                                     } else {
                                       controller.createAdress(
                                           context,
@@ -179,9 +175,7 @@ class _AdressPageState extends State<AdressPage> {
                                               group: int.parse(
                                                   _controllerGroup.text),
                                               block: _controllerBlock.text),
-                                          widget.user,
-                                          widget.allCategories,
-                                          widget.allProducts);
+                                          widget.user);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(

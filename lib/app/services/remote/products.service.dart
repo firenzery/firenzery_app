@@ -16,4 +16,13 @@ class ProductsService implements IProducts {
       throw error;
     }
   }
+
+  @override
+  Future getNewArrivedProducts() async {
+    try {
+      return await client.get("$url/products/get-new-arrival-products");
+    } catch (error) {
+      throw error;
+    }
+  }
 }

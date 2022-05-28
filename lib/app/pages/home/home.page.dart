@@ -21,11 +21,13 @@ import 'components/search_form.dart';
 class HomePage extends StatefulWidget {
   final List allCategories;
   final List allProducts;
+  final List newArrivalProducts;
   final AdressModel adress;
   final UserModel user;
 
   // ignore: use_key_in_widget_constructors
-  const HomePage(this.allCategories, this.allProducts, this.adress, this.user);
+  const HomePage(this.allCategories, this.allProducts, this.newArrivalProducts,
+      this.adress, this.user);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -38,6 +40,7 @@ class _HomePageState extends State<HomePage> {
     final controller = HomeController(
         ProductsViewModel(ProductsService(ClientHttpSevice())),
         CategoriesViewModel(CategoriesService(ClientHttpSevice())),
+        [],
         [],
         [],
         widget.adress,
@@ -68,11 +71,8 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AdressPage(
-                              widget.adress,
-                              widget.user,
-                              widget.allCategories,
-                              widget.allProducts)));
+                          builder: (context) =>
+                              AdressPage(widget.adress, widget.user)));
                 },
               )
             ],
@@ -115,12 +115,9 @@ class _HomePageState extends State<HomePage> {
                 child: SearchForm(),
               ),
               Categories(widget.allCategories, widget.allProducts),
-              NewArrivalProducts(
-                  controller.getFiveProductsbyCategory(widget.allProducts, 1),
-                  1),
+              NewArrivalProducts(widget.newArrivalProducts),
               PopularProducts(
-                  controller.getFiveProductsbyCategory(widget.allProducts, 1),
-                  1),
+                  popularProductsList: widget.allProducts, categoryId: 1)
             ],
           ),
         ));

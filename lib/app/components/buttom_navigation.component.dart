@@ -1,4 +1,7 @@
 import 'package:firenzery/app/models/address.model.dart';
+import 'package:firenzery/app/models/list_categories.model.dart';
+import 'package:firenzery/app/models/list_new_products.model.dart';
+import 'package:firenzery/app/models/list_products.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/home/home.page.dart';
 import 'package:firenzery/app/pages/person/person.page.dart';
@@ -6,17 +9,13 @@ import 'package:firenzery/app/pages/requests/requests.page.dart';
 import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NavigationBarComponent extends StatefulWidget {
-  final List categories;
-  final List products;
   final AdressModel adress;
   final UserModel user;
 
-  const NavigationBarComponent(
-      this.categories, this.products, this.adress, this.user,
-      {Key? key})
-      : super(key: key);
+  const NavigationBarComponent(this.adress, this.user);
 
   @override
   State<NavigationBarComponent> createState() => NavigationBarState();
@@ -29,10 +28,18 @@ class NavigationBarState extends State<NavigationBarComponent> {
 
   @override
   Widget build(BuildContext context) {
+    var allProductsModel =
+        Provider.of<ListProductsModel>(context, listen: false);
+    var allCategoriesModel =
+        Provider.of<ListCategoriesModel>(context, listen: false);
+    var newProductsModel =
+        Provider.of<ListNewProductsModel>(context, listen: false);
+
     final List<Widget> tabs = [
-      HomePage(widget.categories, widget.products, widget.adress, widget.user),
+      HomePage(allCategoriesModel.categories(), allProductsModel.products(),
+          newProductsModel.products(), widget.adress, widget.user),
       const RequestsPage(),
-      PersonPage(widget.categories, widget.products, widget.adress)
+      PersonPage()
     ];
 
     return Scaffold(

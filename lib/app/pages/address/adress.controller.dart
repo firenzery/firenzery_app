@@ -12,11 +12,11 @@ class AdressController extends AdressPage {
   UserViewModel userViewModel;
 
   AdressController(this.adressViewModel, this.userViewModel)
-      : super(AdressModel(), UserModel(), [], []);
+      : super(AdressModel(), UserModel());
 
   ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
 
-  updateAdress(context, newAdress, user, allCategories, allProducts) async {
+  updateAdress(context, newAdress, user) async {
     try {
       await adressViewModel.updateAdress(newAdress);
 
@@ -24,8 +24,8 @@ class AdressController extends AdressPage {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => NavigationBarComponent(
-                  allCategories, allProducts, adressModel.value, user)),
+              builder: (context) =>
+                  NavigationBarComponent(adressModel.value, user)),
         );
       }
     } catch (error) {
@@ -33,7 +33,7 @@ class AdressController extends AdressPage {
     }
   }
 
-  createAdress(context, newAdress, idClient, allCategories, allProducts) async {
+  createAdress(context, newAdress, idClient) async {
     try {
       newAdress.idClient = idClient;
 
@@ -43,8 +43,8 @@ class AdressController extends AdressPage {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => NavigationBarComponent(
-                  allCategories, allProducts, adressModel.value, user)),
+              builder: (context) =>
+                  NavigationBarComponent(adressModel.value, user)),
         );
       }
     } catch (error) {

@@ -7,30 +7,17 @@ import 'section_title.dart';
 
 class NewArrivalProducts extends StatelessWidget {
   final List newProductsList;
-  final int categoryId;
 
-  const NewArrivalProducts(this.newProductsList, this.categoryId, {Key? key})
-      : super(key: key);
+  const NewArrivalProducts(this.newProductsList);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: defaultPadding),
           child: SectionTitle(
             title: "Novos Produtos",
-            pressSeeAll: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListProductsPage(
-                      newProductsList,
-                      categoryId,
-                      'Novos Produtos',
-                    ),
-                  ));
-            },
           ),
         ),
         SingleChildScrollView(

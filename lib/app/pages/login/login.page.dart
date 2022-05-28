@@ -13,11 +13,7 @@ import '../signup/signup.page.dart';
 import 'login.controller.dart';
 
 class LoginPage extends StatefulWidget {
-  final List allProducts;
-  final List allCategories;
-
-  const LoginPage(this.allCategories, this.allProducts, {Key? key})
-      : super(key: key);
+  const LoginPage();
 
   @override
   State<LoginPage> createState() => _State();
@@ -127,8 +123,7 @@ class _State extends State<LoginPage> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        controller.login(context, email, password, isChecked,
-                            widget.allCategories, widget.allProducts);
+                        controller.login(context, email, password, isChecked);
                       },
                       style: ElevatedButton.styleFrom(
                           primary: primaryColor, shape: const StadiumBorder()),
@@ -170,8 +165,7 @@ class _State extends State<LoginPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          SignupPage(widget.allCategories, widget.allProducts),
+                      builder: (context) => SignupPage(),
                     ),
                   );
                 },

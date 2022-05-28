@@ -23,8 +23,10 @@ class Categories extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ListProductsPage(allProducts,
-                      categories[index].type!, categories[index].title!),
+                  builder: (context) => ListProductsPage(
+                      allProducts: allProducts,
+                      categoryId: categories[index].type!,
+                      title: categories[index].title!),
                 ));
           },
         ),

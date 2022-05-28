@@ -6,18 +6,20 @@ import 'package:flutter/material.dart';
 
 class ListProductsPage extends StatelessWidget {
   final List allProducts;
-  final int categoryId;
+  final int? categoryId;
   final String title;
 
-  const ListProductsPage(this.allProducts, this.categoryId, this.title,
-      {Key? key})
-      : super(key: key);
+  const ListProductsPage(
+      {required this.allProducts, this.categoryId, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    final controller = ListProductsController(allProducts, categoryId, title);
+    final controller = ListProductsController(
+        allProducts: allProducts, categoryId: categoryId, title: title);
 
-    List productsList = controller.getProductsbyCategory(categoryId);
+    List productsList = categoryId != null
+        ? controller.getProductsbyCategory(categoryId)
+        : allProducts;
 
     return Scaffold(
         appBar: AppBar(

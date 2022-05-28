@@ -7,27 +7,18 @@ import 'section_title.dart';
 
 class PopularProducts extends StatelessWidget {
   final List popularProductsList;
-  final int categoryId;
+  final int? categoryId;
 
-  const PopularProducts(this.popularProductsList, this.categoryId, {Key? key})
-      : super(key: key);
+  const PopularProducts({required this.popularProductsList, this.categoryId});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: defaultPadding),
           child: SectionTitle(
             title: "Popular",
-            pressSeeAll: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListProductsPage(
-                        popularProductsList, categoryId, 'Popular'),
-                  ));
-            },
           ),
         ),
         SingleChildScrollView(

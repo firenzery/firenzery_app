@@ -5,13 +5,7 @@ import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 
 class PersonPage extends StatefulWidget {
-  final List allCategories;
-  final List allProducts;
-  final AdressModel adress;
-
-  const PersonPage(this.allCategories, this.allProducts, this.adress,
-      {Key? key})
-      : super(key: key);
+  PersonPage();
 
   @override
   State<PersonPage> createState() => _PersonPageState();
@@ -39,8 +33,7 @@ class _PersonPageState extends State<PersonPage> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        controller.exit(context, widget.allCategories,
-                            widget.allProducts, widget.adress);
+                        controller.exit(context);
                       },
                       style: ElevatedButton.styleFrom(
                           primary: primaryColor, shape: const StadiumBorder()),

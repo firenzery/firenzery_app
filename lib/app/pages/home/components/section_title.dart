@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SectionTitle extends StatelessWidget {
-  const SectionTitle({
-    Key? key,
-    required this.title,
-    required this.pressSeeAll,
-  }) : super(key: key);
+  const SectionTitle({Key? key, required this.title}) : super(key: key);
   final String title;
-  final VoidCallback pressSeeAll;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +16,6 @@ class SectionTitle extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
         ),
-        TextButton(
-          onPressed: pressSeeAll,
-          child: const Text(
-            "Mais",
-            style: TextStyle(color: Colors.black54),
-          ),
-        )
       ],
     );
   }

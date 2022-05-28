@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 class PersonController extends PersonPage {
   ILocaleStorage service;
 
-  PersonController(this.service) : super([], [], AdressModel());
+  PersonController(this.service);
 
-  exit(context, categories, products, adress) async {
+  exit(context) async {
     await service.removeValue('email');
     await service.removeValue('password');
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage(categories, products)),
+      MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
 }

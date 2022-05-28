@@ -11,13 +11,12 @@ class LoginController extends LoginPage {
   final UserViewModel userViewModel;
   final AdressViewModel adressViewModel;
 
-  LoginController(this.userViewModel, this.adressViewModel) : super([], []);
+  LoginController(this.userViewModel, this.adressViewModel);
 
   ValueNotifier<UserModel> get userModel => userViewModel.userModel;
   ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
 
-  login(context, email, password, keepConnected, allCategories,
-      allProducts) async {
+  login(context, email, password, keepConnected) async {
     if (!email.contains('@') || !email.contains('.com')) {
       showAlertDialog(context, 'Email Invalido!', 'Login');
     } else {
@@ -37,8 +36,8 @@ class LoginController extends LoginPage {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NavigationBarComponent(allCategories,
-                    allProducts, adressModel.value, userModel.value)),
+                builder: (context) =>
+                    NavigationBarComponent(adressModel.value, userModel.value)),
           );
         } else {
           showAlertDialog(context, resp.body, 'Login');
