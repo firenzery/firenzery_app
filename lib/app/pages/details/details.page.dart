@@ -65,9 +65,9 @@ class DetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: defaultPadding),
-                    child: Text("Descriçào aqui."),
+                    child: Text(product.description!),
                   ),
                   const SizedBox(height: defaultPadding * 8),
                   Center(
