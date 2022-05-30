@@ -18,12 +18,6 @@ class HomeController extends HomePage {
   final ProductsViewModel productsViewModel;
   final CategoriesViewModel categoriesViewModel;
 
-  final adressModel = LoginController(
-          UserViewModel(
-              UserService(ClientHttpSevice()), SharedPreferencesService()),
-          AdressViewModel(AdressService(ClientHttpSevice())))
-      .adressModel;
-
   AdressModel adress;
   UserModel user;
   List products;

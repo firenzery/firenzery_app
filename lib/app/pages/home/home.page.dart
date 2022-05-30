@@ -40,9 +40,9 @@ class _HomePageState extends State<HomePage> {
     final controller = HomeController(
         ProductsViewModel(ProductsService(ClientHttpSevice())),
         CategoriesViewModel(CategoriesService(ClientHttpSevice())),
-        [],
-        [],
-        [],
+        widget.allCategories,
+        widget.allProducts,
+        widget.newArrivalProducts,
         widget.adress,
         widget.user);
 
