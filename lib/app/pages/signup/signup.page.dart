@@ -45,15 +45,7 @@ class _SignupPageState extends State<SignupPage> {
         yearDiff == ageMin && monthDiff >= 0 && dayDiff >= 0;
   }
 
-  UserModel user = UserModel(
-      idClient: null,
-      firstName: null,
-      surname: null,
-      dateNasc: null,
-      email: null,
-      password: null,
-      cpf: null,
-      nrPhone: null);
+  UserModel user = UserModel();
 
   @override
   Widget build(BuildContext context) {

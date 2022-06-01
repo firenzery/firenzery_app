@@ -11,7 +11,7 @@ class SignUpController extends SignupPage {
 
   SignUpController(this.viewModel);
 
-  ValueNotifier<UserModel> get registerModel => viewModel.userModel;
+  ValueNotifier<UserModel> get registerModel => viewModel.userModelNotifier;
 
   register(context, UserModel user) async {
     try {

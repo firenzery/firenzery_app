@@ -19,8 +19,10 @@ class LoginController extends ChangeNotifier {
   AuthState state = AuthState.idle;
 
   late final messageError;
+  late UserModel user;
+  late AdressModel adress;
 
-  ValueNotifier<UserModel> get userModel => userViewModel.userModel;
+  ValueNotifier<UserModel> get userModel => userViewModel.userModelNotifier;
   ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
 
   login(email, password, keepConnected) async {
@@ -38,6 +40,9 @@ class LoginController extends ChangeNotifier {
           await userViewModel.saveCredentialsLocale('password', password);
         }
         await adressViewModel.getAdress(userModel.value.idClient);
+
+        user = userModel.value;
+        adress = adressModel.value;
 
         state = AuthState.success;
         notifyListeners();

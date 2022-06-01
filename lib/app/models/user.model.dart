@@ -1,4 +1,6 @@
-class UserModel {
+import 'package:flutter/material.dart';
+
+class UserModel extends ChangeNotifier {
   int? idClient;
   String? firstName;
   String? surname;
@@ -27,6 +29,7 @@ class UserModel {
     password = json['PASSWORD'];
     cpf = json['CPF'];
     nrPhone = json['NR_PHONE'];
+    notifyListeners();
   }
 
   Map<String, dynamic> toJson() {

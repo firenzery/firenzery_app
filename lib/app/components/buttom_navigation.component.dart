@@ -1,5 +1,4 @@
 import 'package:firenzery/app/models/address.model.dart';
-
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/home/home.page.dart';
 import 'package:firenzery/app/pages/person/person.page.dart';
@@ -10,10 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NavigationBarComponent extends StatefulWidget {
-  final AdressModel adress;
-  final UserModel user;
-
-  const NavigationBarComponent(this.adress, this.user);
+  const NavigationBarComponent();
 
   @override
   State<NavigationBarComponent> createState() => NavigationBarState();
@@ -29,12 +25,7 @@ class NavigationBarState extends State<NavigationBarComponent> {
     var splashController =
         Provider.of<SplashController>(context, listen: false);
 
-    final List<Widget> tabs = [
-      HomePage(splashController.allCategories, splashController.allProducts,
-          splashController.newArrivalProducts, widget.adress, widget.user),
-      const RequestsPage(),
-      PersonPage()
-    ];
+    final List<Widget> tabs = [HomePage(), const RequestsPage(), PersonPage()];
 
     return Scaffold(
       body: tabs[_currentTab],

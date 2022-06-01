@@ -24,9 +24,7 @@ class _SplashPageState extends State<SplashPage> {
       if (controller.state == AuthState.authenticated) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => NavigationBarComponent(
-                  controller.adressModel.value, controller.userModel.value)),
+          MaterialPageRoute(builder: (context) => NavigationBarComponent()),
         );
       } else if (controller.state == AuthState.unauthenticated) {
         Navigator.push(

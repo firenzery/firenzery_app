@@ -35,9 +35,7 @@ class _State extends State<LoginPage> {
       } else if (controller.state == AuthState.success) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => NavigationBarComponent(
-                  controller.adressModel.value, controller.userModel.value)),
+          MaterialPageRoute(builder: (context) => NavigationBarComponent()),
         );
       }
     });
@@ -147,9 +145,7 @@ class _State extends State<LoginPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          NavigationBarComponent(
-                                              controller.adressModel.value,
-                                              controller.userModel.value)),
+                                          NavigationBarComponent()),
                                 );
                               };
                       },

@@ -9,14 +9,7 @@ class UserViewModel {
   final IUser userService;
   final ILocaleStorage localeService;
 
-  final userModel = ValueNotifier<UserModel>(UserModel(
-      idClient: null,
-      firstName: null,
-      surname: null,
-      dateNasc: null,
-      email: null,
-      cpf: null,
-      nrPhone: null));
+  final userModelNotifier = ValueNotifier<UserModel>(UserModel());
 
   UserViewModel(this.userService, this.localeService);
 
@@ -24,7 +17,8 @@ class UserViewModel {
     try {
       var resp = await userService.getUser(id);
 
-      userModel.value = UserModel.fromJson(convert.jsonDecode(resp.body));
+      userModelNotifier.value =
+          UserModel.fromJson(convert.jsonDecode(resp.body));
 
       return resp;
     } catch (error) {
@@ -37,7 +31,8 @@ class UserViewModel {
       var resp = await userService.register(user);
 
       if (resp.statusCode == 200) {
-        userModel.value = UserModel.fromJson(convert.jsonDecode(resp.body));
+        userModelNotifier.value =
+            UserModel.fromJson(convert.jsonDecode(resp.body));
       }
 
       return resp;
@@ -51,7 +46,8 @@ class UserViewModel {
       var resp = await userService.login(email, password);
 
       if (resp.statusCode == 200) {
-        userModel.value = UserModel.fromJson(convert.jsonDecode(resp.body));
+        userModelNotifier.value =
+            UserModel.fromJson(convert.jsonDecode(resp.body));
       }
 
       return resp;

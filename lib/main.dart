@@ -1,3 +1,6 @@
+import 'package:firenzery/app/models/address.model.dart';
+import 'package:firenzery/app/models/user.model.dart';
+import 'package:firenzery/app/pages/home/home.controller.dart';
 import 'package:firenzery/app/pages/login/login.controller.dart';
 import 'package:firenzery/app/pages/person/person.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
@@ -23,6 +26,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => LoginController()),
           ChangeNotifierProvider(create: (context) => PersonController()),
           ChangeNotifierProvider(create: (context) => SplashController()),
+          ChangeNotifierProvider(create: (context) => HomeController()),
+          ChangeNotifierProvider(create: (context) => UserModel()),
+          ChangeNotifierProvider(create: (context) => AdressModel()),
         ],
         child: MaterialApp(
             title: 'Main',

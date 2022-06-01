@@ -19,31 +19,21 @@ import 'package:flutter/material.dart';
 enum AuthState { idle, loading, unauthenticated, authenticated }
 
 class SplashController extends ChangeNotifier {
-  final ProductsViewModel productsViewModel =
-      ProductsViewModel(ProductsService(ClientHttpSevice()));
-
-  final CategoriesViewModel categoriesViewModel =
-      CategoriesViewModel(CategoriesService(ClientHttpSevice()));
-
-  final AdressViewModel adressViewModel =
-      AdressViewModel(AdressService(ClientHttpSevice()));
-
   final UserViewModel userViewModel = UserViewModel(
       UserService(ClientHttpSevice()), SharedPreferencesService());
 
   final ILocaleStorage service = SharedPreferencesService();
 
-  List<CategoryModel> allCategories = [];
-  List<ProductModel> allProducts = [];
-  List<ProductModel> newArrivalProducts = [];
+  late int userId;
+  late UserModel user;
+
   bool? verify;
   List? values;
 
   String? email;
   String? password;
 
-  ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
-  ValueNotifier<UserModel> get userModel => userViewModel.userModel;
+  ValueNotifier<UserModel> get userModel => userViewModel.userModelNotifier;
 
   AuthState state = AuthState.idle;
 
@@ -62,28 +52,17 @@ class SplashController extends ChangeNotifier {
     }
   }
 
-  getValues() async {
-    try {
-      allCategories = await categoriesViewModel.getAllCategories();
-      allProducts = await productsViewModel.getAllProducts();
-      newArrivalProducts = await productsViewModel.getNewArrivalProducts();
-      notifyListeners();
-    } catch (error) {
-      return error;
-    }
-  }
-
   navigateToPage() async {
     state = AuthState.loading;
     notifyListeners();
 
-    values = await getValues();
     verify = await verifyKeppConect();
 
     if (verify!) {
-      var idClient = await service.getValue('idClient');
-      await userViewModel.getUser(idClient);
-      await adressViewModel.getAdress(idClient);
+      userId = await service.getValue('idClient');
+      await userViewModel.getUser(userId);
+
+      user = userModel.value;
 
       state = AuthState.authenticated;
       notifyListeners();

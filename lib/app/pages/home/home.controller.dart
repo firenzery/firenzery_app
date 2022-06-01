@@ -16,13 +16,45 @@ import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:flutter/material.dart';
 
+enum GetValuesState { idle, error, success, loading }
+
 // ignore: must_be_immutable
 class HomeController extends ChangeNotifier {
-  getFiveProductsbyCategory(allProducts, categoryId) {
-    return allProducts
-        .where((data) => data.type == categoryId)
-        .toList()
-        .getRange(0, allProducts.length >= 5 ? 5 : allProducts.length)
-        .toList();
+  final CategoriesViewModel categoriesViewModel =
+      CategoriesViewModel(CategoriesService(ClientHttpSevice()));
+
+  final ProductsViewModel productsViewModel =
+      ProductsViewModel(ProductsService(ClientHttpSevice()));
+
+  final AdressViewModel adressViewModel =
+      AdressViewModel(AdressService(ClientHttpSevice()));
+
+  List<CategoryModel> allCategories = [];
+  List<ProductModel> allProducts = [];
+  List<ProductModel> newArrivalProducts = [];
+  AdressModel adress = AdressModel();
+
+  ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
+
+  GetValuesState state = GetValuesState.idle;
+
+  getValues(userId) async {
+    state = GetValuesState.loading;
+    notifyListeners();
+
+    try {
+      allCategories = await categoriesViewModel.getAllCategories();
+      allProducts = await productsViewModel.getAllProducts();
+      newArrivalProducts = await productsViewModel.getNewArrivalProducts();
+      await adressViewModel.getAdress(userId);
+      adress = adressModel.value;
+
+      state = GetValuesState.success;
+      notifyListeners();
+    } catch (error) {
+      state = GetValuesState.error;
+      notifyListeners();
+      return error;
+    }
   }
 }

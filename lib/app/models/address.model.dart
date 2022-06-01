@@ -1,4 +1,6 @@
-class AdressModel {
+import 'package:flutter/material.dart';
+
+class AdressModel extends ChangeNotifier {
   int? idAdress;
   int? idClient;
   int? group;
@@ -8,12 +10,20 @@ class AdressModel {
   AdressModel(
       {this.idAdress, this.idClient, this.group, this.apartment, this.block});
 
+  AdressModel adress() => AdressModel(
+      idClient: idClient,
+      idAdress: idAdress,
+      group: group,
+      apartment: apartment,
+      block: block);
+
   AdressModel.fromJson(Map<String, dynamic> json) {
     idAdress = json['idAdress'];
     idClient = json['idClient'];
     group = json['group'];
     apartment = json['apartment'];
     block = json['block'];
+    notifyListeners();
   }
 
   Map<String, dynamic> toJson() {

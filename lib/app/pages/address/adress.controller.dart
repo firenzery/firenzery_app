@@ -23,9 +23,7 @@ class AdressController extends AdressPage {
       if (adressModel.value.idAdress != null) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  NavigationBarComponent(adressModel.value, user)),
+          MaterialPageRoute(builder: (context) => NavigationBarComponent()),
         );
       }
     } catch (error) {
@@ -42,9 +40,7 @@ class AdressController extends AdressPage {
       if (adressModel.value.idAdress != null) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  NavigationBarComponent(adressModel.value, user)),
+          MaterialPageRoute(builder: (context) => NavigationBarComponent()),
         );
       }
     } catch (error) {
