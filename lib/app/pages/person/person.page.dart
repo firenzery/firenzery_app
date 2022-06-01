@@ -1,8 +1,8 @@
-import 'package:firenzery/app/models/address.model.dart';
+import 'package:firenzery/app/pages/login/login.page.dart';
 import 'package:firenzery/app/pages/person/person.controller.dart';
-import 'package:firenzery/app/services/local/shared_preferences.service.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PersonPage extends StatefulWidget {
   PersonPage();
@@ -12,7 +12,24 @@ class PersonPage extends StatefulWidget {
 }
 
 class _PersonPageState extends State<PersonPage> {
-  final controller = PersonController(SharedPreferencesService());
+  late final PersonController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = context.read<PersonController>();
+
+    controller.addListener(() => {
+          if (controller.state == ExitState.success)
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              )
+            }
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +48,27 @@ class _PersonPageState extends State<PersonPage> {
                   child: SizedBox(
                     width: 200,
                     height: 48,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        controller.exit(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: primaryColor, shape: const StadiumBorder()),
-                      child: const Text("Sair"),
-                    ),
+                    child: Consumer<PersonController>(builder:
+                        (BuildContext context, controller, Widget? child) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          controller.exit();
+                          controller.state == ExitState.loading
+                              ? null
+                              : () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()),
+                                  );
+                                };
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: primaryColor,
+                            shape: const StadiumBorder()),
+                        child: const Text("Sair"),
+                      );
+                    }),
                   ),
                 ),
                 const SizedBox(

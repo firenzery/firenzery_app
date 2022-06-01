@@ -1,7 +1,6 @@
-import 'package:firenzery/app/models/list_categories.model.dart';
-import 'package:firenzery/app/models/list_new_products.model.dart';
-import 'package:firenzery/app/models/list_products.model.dart';
-import 'package:firenzery/app/models/user.model.dart';
+import 'package:firenzery/app/pages/login/login.controller.dart';
+import 'package:firenzery/app/pages/person/person.controller.dart';
+import 'package:firenzery/app/pages/splash/splash.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,9 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => ListProductsModel()),
-          ChangeNotifierProvider(create: (context) => ListCategoriesModel()),
-          ChangeNotifierProvider(create: (context) => ListNewProductsModel())
+          ChangeNotifierProvider(create: (context) => LoginController()),
+          ChangeNotifierProvider(create: (context) => PersonController()),
+          ChangeNotifierProvider(create: (context) => SplashController()),
         ],
         child: MaterialApp(
             title: 'Main',

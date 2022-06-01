@@ -37,14 +37,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final controller = HomeController(
-        ProductsViewModel(ProductsService(ClientHttpSevice())),
-        CategoriesViewModel(CategoriesService(ClientHttpSevice())),
-        widget.allCategories,
-        widget.allProducts,
-        widget.newArrivalProducts,
-        widget.adress,
-        widget.user);
+    late final controller;
 
     bool verifyAdress = widget.adress.idClient != null;
 

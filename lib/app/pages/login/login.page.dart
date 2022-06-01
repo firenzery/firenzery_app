@@ -1,33 +1,47 @@
-import 'package:firenzery/app/models/address.model.dart';
-import 'package:firenzery/app/services/local/shared_preferences.service.dart';
-import 'package:firenzery/app/services/remote/adress.service.dart';
-import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
+import 'package:firenzery/app/components/buttom_navigation.component.dart';
+import 'package:firenzery/app/pages/login/components/alertDialog.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
-
-import '../../services/remote/client_http.service.dart';
-import '../../services/remote/user.service.dart';
-import '../../viewmodels/user.viewmodel.dart';
+import 'package:provider/provider.dart';
 import '../resetpassword/reset_password.page.dart';
 import '../signup/signup.page.dart';
 import 'login.controller.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage();
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _State();
 }
 
 class _State extends State<LoginPage> {
-  final controller = LoginController(
-      UserViewModel(
-          UserService(ClientHttpSevice()), SharedPreferencesService()),
-      AdressViewModel(AdressService(ClientHttpSevice())));
+  late final LoginController controller;
 
   String email = '';
   String password = '';
   bool isChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = context.read<LoginController>();
+
+    controller.addListener(() {
+      if (controller.state == AuthState.error) {
+        showAlertDialog(context, controller.messageError, 'Login');
+      } else if (controller.state == AuthState.errorServer) {
+        showAlertDialog(context, 'Erro no Servidor!', 'Login');
+      } else if (controller.state == AuthState.success) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => NavigationBarComponent(
+                  controller.adressModel.value, controller.userModel.value)),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,19 +132,33 @@ class _State extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Center(
-                  child: SizedBox(
-                    width: 200,
-                    height: 48,
-                    child: ElevatedButton(
+                    child: SizedBox(
+                  width: 200,
+                  height: 48,
+                  child: Consumer<LoginController>(builder:
+                      (BuildContext context, controller, Widget? child) {
+                    return ElevatedButton(
                       onPressed: () {
-                        controller.login(context, email, password, isChecked);
+                        controller.login(email, password, isChecked);
+                        controller.state == AuthState.loading
+                            ? null
+                            : () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          NavigationBarComponent(
+                                              controller.adressModel.value,
+                                              controller.userModel.value)),
+                                );
+                              };
                       },
                       style: ElevatedButton.styleFrom(
                           primary: primaryColor, shape: const StadiumBorder()),
                       child: const Text("Login"),
-                    ),
-                  ),
-                )
+                    );
+                  }),
+                )),
               ],
             ),
             const SizedBox(

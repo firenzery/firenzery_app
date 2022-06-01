@@ -1,30 +1,38 @@
-import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/interfaces/locale_storage.interface.dart';
 import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/category.model.dart';
-import 'package:firenzery/app/models/list_categories.model.dart';
-import 'package:firenzery/app/models/list_new_products.model.dart';
-import 'package:firenzery/app/models/list_products.model.dart';
 import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
-import 'package:firenzery/app/pages/home/components/new_arrival_products.dart';
-import 'package:firenzery/app/pages/login/login.page.dart';
-import 'package:firenzery/app/pages/splash/splash.page.dart';
+import 'package:firenzery/app/services/local/shared_preferences.service.dart';
+import 'package:firenzery/app/services/remote/adress.service.dart';
+import 'package:firenzery/app/services/remote/categories.service.dart';
+import 'package:firenzery/app/services/remote/client_http.service.dart';
+import 'package:firenzery/app/services/remote/products.service.dart';
+import 'package:firenzery/app/services/remote/user.service.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 // ignore: must_be_immutable
-class SplashController extends SplashPage {
-  final ProductsViewModel productsViewModel;
-  final CategoriesViewModel categoriesViewModel;
-  final AdressViewModel adressViewModel;
-  final UserViewModel userViewModel;
 
-  ILocaleStorage service;
+enum AuthState { idle, loading, unauthenticated, authenticated }
+
+class SplashController extends ChangeNotifier {
+  final ProductsViewModel productsViewModel =
+      ProductsViewModel(ProductsService(ClientHttpSevice()));
+
+  final CategoriesViewModel categoriesViewModel =
+      CategoriesViewModel(CategoriesService(ClientHttpSevice()));
+
+  final AdressViewModel adressViewModel =
+      AdressViewModel(AdressService(ClientHttpSevice()));
+
+  final UserViewModel userViewModel = UserViewModel(
+      UserService(ClientHttpSevice()), SharedPreferencesService());
+
+  final ILocaleStorage service = SharedPreferencesService();
+
   List<CategoryModel> allCategories = [];
   List<ProductModel> allProducts = [];
   List<ProductModel> newArrivalProducts = [];
@@ -34,11 +42,10 @@ class SplashController extends SplashPage {
   String? email;
   String? password;
 
-  SplashController(this.service, this.categoriesViewModel,
-      this.productsViewModel, this.adressViewModel, this.userViewModel);
-
   ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
   ValueNotifier<UserModel> get userModel => userViewModel.userModel;
+
+  AuthState state = AuthState.idle;
 
   verifyKeppConect() async {
     try {
@@ -60,41 +67,29 @@ class SplashController extends SplashPage {
       allCategories = await categoriesViewModel.getAllCategories();
       allProducts = await productsViewModel.getAllProducts();
       newArrivalProducts = await productsViewModel.getNewArrivalProducts();
+      notifyListeners();
     } catch (error) {
       return error;
     }
   }
 
-  navigateToPage(context) async {
+  navigateToPage() async {
+    state = AuthState.loading;
+    notifyListeners();
+
     values = await getValues();
     verify = await verifyKeppConect();
-
-    var allProductsModel =
-        Provider.of<ListProductsModel>(context, listen: false);
-    var allCategoriesModel =
-        Provider.of<ListCategoriesModel>(context, listen: false);
-    var newProductsModel =
-        Provider.of<ListNewProductsModel>(context, listen: false);
-
-    allProductsModel.addProductsInList(allProducts);
-    allCategoriesModel.addProductsInList(allCategories);
-    newProductsModel.addProductsInList(newArrivalProducts);
-
-    await Future.delayed(const Duration(milliseconds: 2000), () {});
 
     if (verify!) {
       var idClient = await service.getValue('idClient');
       await userViewModel.getUser(idClient);
       await adressViewModel.getAdress(idClient);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                NavigationBarComponent(adressModel.value, userModel.value)),
-      );
+
+      state = AuthState.authenticated;
+      notifyListeners();
     } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+      state = AuthState.unauthenticated;
+      notifyListeners();
     }
   }
 }

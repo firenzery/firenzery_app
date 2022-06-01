@@ -2,20 +2,26 @@ import 'package:firenzery/app/interfaces/locale_storage.interface.dart';
 import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
 import 'package:firenzery/app/pages/person/person.page.dart';
+import 'package:firenzery/app/services/local/shared_preferences.service.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class PersonController extends PersonPage {
-  ILocaleStorage service;
 
-  PersonController(this.service);
+enum ExitState { idle, loading, success }
 
-  exit(context) async {
+class PersonController extends ChangeNotifier {
+  ILocaleStorage service = SharedPreferencesService();
+
+  ExitState state = ExitState.idle;
+
+  exit() async {
+    state = ExitState.loading;
+    notifyListeners();
+
     await service.removeValue('email');
     await service.removeValue('password');
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
+
+    state = ExitState.success;
+    notifyListeners();
   }
 }

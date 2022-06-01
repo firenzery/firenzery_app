@@ -1,50 +1,54 @@
-import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
-import 'package:firenzery/app/pages/login/login.page.dart';
+import 'package:firenzery/app/services/local/shared_preferences.service.dart';
+import 'package:firenzery/app/services/remote/adress.service.dart';
+import 'package:firenzery/app/services/remote/client_http.service.dart';
+import 'package:firenzery/app/services/remote/user.service.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:flutter/material.dart';
 import '../../viewmodels/user.viewmodel.dart';
-import 'components/alertDialog.dart';
 
-class LoginController extends LoginPage {
-  final UserViewModel userViewModel;
-  final AdressViewModel adressViewModel;
+enum AuthState { idle, success, error, errorServer, loading }
 
-  LoginController(this.userViewModel, this.adressViewModel);
+class LoginController extends ChangeNotifier {
+  final UserViewModel userViewModel = UserViewModel(
+      UserService(ClientHttpSevice()), SharedPreferencesService());
+  final AdressViewModel adressViewModel =
+      AdressViewModel(AdressService(ClientHttpSevice()));
+
+  AuthState state = AuthState.idle;
+
+  late final messageError;
 
   ValueNotifier<UserModel> get userModel => userViewModel.userModel;
   ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
 
-  login(context, email, password, keepConnected) async {
-    if (!email.contains('@') || !email.contains('.com')) {
-      showAlertDialog(context, 'Email Invalido!', 'Login');
-    } else {
-      try {
-        var resp = await userViewModel.login(email, password);
+  login(email, password, keepConnected) async {
+    state = AuthState.loading;
+    notifyListeners();
 
-        if (resp.statusCode == 200) {
-          if (keepConnected) {
-            await userViewModel.saveCredentialsLocale(
-                'idClient', userModel.value.idClient);
-            await userViewModel.saveCredentialsLocale('email', email);
-            await userViewModel.saveCredentialsLocale('password', password);
-          }
+    try {
+      var resp = await userViewModel.login(email, password);
 
-          await adressViewModel.getAdress(userModel.value.idClient);
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    NavigationBarComponent(adressModel.value, userModel.value)),
-          );
-        } else {
-          showAlertDialog(context, resp.body, 'Login');
+      if (resp.statusCode == 200) {
+        if (keepConnected) {
+          await userViewModel.saveCredentialsLocale(
+              'idClient', userModel.value.idClient);
+          await userViewModel.saveCredentialsLocale('email', email);
+          await userViewModel.saveCredentialsLocale('password', password);
         }
-      } catch (error) {
-        showAlertDialog(context, 'Erro no Servidor!', 'Login');
+        await adressViewModel.getAdress(userModel.value.idClient);
+
+        state = AuthState.success;
+        notifyListeners();
+      } else {
+        messageError = resp.body;
+        state = AuthState.error;
+        notifyListeners();
       }
+    } catch (error) {
+      state = AuthState.errorServer;
+      notifyListeners();
     }
   }
 }
