@@ -1,6 +1,7 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/pages/login/login.page.dart';
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
+import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,8 +36,11 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(
-        const Duration(milliseconds: 2000), () => controller.navigateToPage());
+    UserViewModel userViewModel =
+        Provider.of<UserViewModel>(context, listen: false);
+
+    Future.delayed(const Duration(milliseconds: 2000),
+        () => controller.navigateToPage(userViewModel));
 
     return const Scaffold(
       body: Center(

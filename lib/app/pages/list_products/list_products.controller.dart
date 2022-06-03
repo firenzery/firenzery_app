@@ -9,7 +9,7 @@ class ListProductsController extends ListProductsPage {
       {required this.allProducts, this.categoryId, required this.title})
       : super(allProducts: allProducts, categoryId: categoryId, title: title);
 
-  getProductsbyCategory(categoryId) {
+  getProductsbyCategory(int categoryId) {
     return allProducts.where((data) => data.type == categoryId).toList();
   }
 }

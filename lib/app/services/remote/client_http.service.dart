@@ -17,7 +17,7 @@ class ClientHttpSevice implements IClientHttp {
   }
 
   @override
-  Future post(url, body) async {
+  Future post(String url, body) async {
     try {
       String data = json.encode(body);
       return await http.post(
@@ -31,7 +31,7 @@ class ClientHttpSevice implements IClientHttp {
   }
 
   @override
-  Future put(url, body) async {
+  Future put(String url, body) async {
     try {
       String data = json.encode(body);
       return await http.put(

@@ -20,35 +20,21 @@ enum GetValuesState { idle, error, success, loading }
 
 // ignore: must_be_immutable
 class HomeController extends ChangeNotifier {
-  final CategoriesViewModel categoriesViewModel =
-      CategoriesViewModel(CategoriesService(ClientHttpSevice()));
-
-  final ProductsViewModel productsViewModel =
-      ProductsViewModel(ProductsService(ClientHttpSevice()));
-
-  final AdressViewModel adressViewModel =
-      AdressViewModel(AdressService(ClientHttpSevice()));
-
-  List<CategoryModel> allCategories = [];
-  List<ProductModel> allProducts = [];
-  List<ProductModel> newArrivalProducts = [];
-  AdressModel adress = AdressModel();
-
-  ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
-
   GetValuesState state = GetValuesState.idle;
 
-  getValues(userId) async {
+  getValues(
+      int userId,
+      CategoriesViewModel categoriesViewModel,
+      ProductsViewModel productsViewModel,
+      AdressViewModel adressViewModel) async {
     state = GetValuesState.loading;
     notifyListeners();
 
     try {
-      allCategories = await categoriesViewModel.getAllCategories();
-      allProducts = await productsViewModel.getAllProducts();
-      newArrivalProducts = await productsViewModel.getNewArrivalProducts();
+      await categoriesViewModel.getAllCategories();
+      await productsViewModel.getAllProducts();
+      await productsViewModel.getNewArrivalProducts();
       await adressViewModel.getAdress(userId);
-      adress = adressModel.value;
-
       state = GetValuesState.success;
       notifyListeners();
     } catch (error) {

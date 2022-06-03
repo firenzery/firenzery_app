@@ -1,10 +1,16 @@
 import 'package:firenzery/app/models/address.model.dart';
+import 'package:firenzery/app/models/category.model.dart';
+import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/cart/cart.page.dart';
 import 'package:firenzery/app/pages/home/home.controller.dart';
 import 'package:firenzery/app/pages/login/login.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
+import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,36 +32,56 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final HomeController controller;
 
+  late AdressViewModel adressViewModel;
+  late UserViewModel userViewModel;
+  late CategoriesViewModel categoriesViewModel;
+  late ProductsViewModel productsViewModel;
+
+  UserModel user = UserModel();
+  AdressModel adress = AdressModel();
+
+  List<CategoryModel> allCategories = [];
+  List<ProductModel> allProducts = [];
+  List<ProductModel> newArrivalProducts = [];
+
   @override
   void initState() {
     controller = context.read<HomeController>();
 
+    adressViewModel = Provider.of<AdressViewModel>(context, listen: false);
+
+    userViewModel = Provider.of<UserViewModel>(context, listen: false);
+
+    categoriesViewModel =
+        Provider.of<CategoriesViewModel>(context, listen: false);
+
+    productsViewModel = Provider.of<ProductsViewModel>(context, listen: false);
+
     controller.addListener(() {
+      addValues();
       if (controller.state == GetValuesState.loading) {
       } else if (controller.state == GetValuesState.error) {}
     });
 
+    addValues();
+
     super.initState();
+  }
+
+  addValues() {
+    user = userViewModel.userModel;
+    adress = adressViewModel.adressModel;
+    allCategories = categoriesViewModel.categories;
+    allProducts = productsViewModel.products;
+    newArrivalProducts = productsViewModel.newArrivedProducts;
   }
 
   @override
   Widget build(BuildContext context) {
-    UserModel user;
-
-    SplashController splashController =
-        Provider.of<SplashController>(context, listen: false);
-
-    LoginController loginController =
-        Provider.of<LoginController>(context, listen: false);
-
-    if (splashController.verify!) {
-      user = splashController.user;
-    } else {
-      user = loginController.user;
-    }
-
-    Future.delayed(const Duration(milliseconds: 2000),
-        () => controller.getValues(user.idClient));
+    Future.delayed(
+        const Duration(milliseconds: 2000),
+        () => controller.getValues(user.idClient!, categoriesViewModel,
+            productsViewModel, adressViewModel));
 
     return Scaffold(
         appBar: AppBar(
@@ -70,8 +96,8 @@ class _HomePageState extends State<HomePage> {
                   builder: (BuildContext context, controller, Widget? child) {
                 return InkWell(
                     child: Text(
-                      controller.adress.idClient != null
-                          ? '${controller.adress.apartment}${controller.adress.block} GRUPO ${controller.adress.group}'
+                      adress.idClient != null
+                          ? '${adress.apartment}${adress.block} GRUPO ${adress.group}'
                           : 'CADASTRAR ENDEREÇO',
                       style: const TextStyle(
                           fontSize: 16,
@@ -82,8 +108,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  AdressPage(controller.adress, user)));
+                              builder: (context) => AdressPage()));
                     });
               })
             ],
@@ -105,7 +130,8 @@ class _HomePageState extends State<HomePage> {
         body: RefreshIndicator(
           color: Colors.white,
           backgroundColor: primaryColor,
-          onRefresh: (() => controller.getValues(user.idClient)),
+          onRefresh: (() => controller.getValues(user.idClient!,
+              categoriesViewModel, productsViewModel, adressViewModel)),
           child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
@@ -132,12 +158,10 @@ class _HomePageState extends State<HomePage> {
                           EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
                       child: SearchForm(),
                     ),
-                    Categories(
-                        controller.allCategories, controller.allProducts),
-                    NewArrivalProducts(controller.newArrivalProducts),
+                    Categories(allCategories, allProducts),
+                    NewArrivalProducts(newArrivalProducts),
                     PopularProducts(
-                        popularProductsList: controller.allProducts,
-                        categoryId: 1)
+                        popularProductsList: allProducts, categoryId: 1)
                   ],
                 );
               })),

@@ -1,26 +1,25 @@
 import 'package:firenzery/app/interfaces/categories.interface.dart';
 import 'package:firenzery/app/models/category.model.dart';
+import 'package:firenzery/app/services/remote/categories.service.dart';
+import 'package:firenzery/app/services/remote/client_http.service.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 
-class CategoriesViewModel {
-  ICategories service;
+class CategoriesViewModel extends ChangeNotifier {
+  ICategories service = CategoriesService(ClientHttpSevice());
 
-  CategoriesViewModel(this.service);
-
-  ValueNotifier<CategoryModel> model = ValueNotifier<CategoryModel>(
-      CategoryModel(icon: null, title: null, type: null));
+  List<CategoryModel> categories = [];
 
   getAllCategories() async {
     try {
       var response = await service.getAllCategories();
 
-      List categories = convert.jsonDecode(response.body);
+      List categoriesBody = convert.jsonDecode(response.body);
 
       categories =
-          categories.map((data) => CategoryModel.fromJson(data)).toList();
+          categoriesBody.map((data) => CategoryModel.fromJson(data)).toList();
 
-      return categories;
+      notifyListeners();
     } catch (error) {
       return error;
     }

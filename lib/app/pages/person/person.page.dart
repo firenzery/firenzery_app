@@ -20,15 +20,16 @@ class _PersonPageState extends State<PersonPage> {
 
     controller = context.read<PersonController>();
 
-    controller.addListener(() => {
-          if (controller.state == ExitState.success)
-            {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              )
-            }
-        });
+    controller.addListener(() {
+      if (controller.state == ExitState.success) {
+        Future.delayed(
+            Duration(milliseconds: 1000),
+            () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                ));
+      }
+    });
   }
 
   @override
@@ -53,15 +54,6 @@ class _PersonPageState extends State<PersonPage> {
                       return ElevatedButton(
                         onPressed: () {
                           controller.exit();
-                          controller.state == ExitState.loading
-                              ? null
-                              : () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage()),
-                                  );
-                                };
                         },
                         style: ElevatedButton.styleFrom(
                             primary: primaryColor,

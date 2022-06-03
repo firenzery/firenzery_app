@@ -1,6 +1,8 @@
+import 'package:firenzery/app/components/buttom_navigation.component.dart';
 import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/address/adress.controller.dart';
+import 'package:firenzery/app/pages/login/components/alertDialog.dart';
 import 'package:firenzery/app/services/local/shared_preferences.service.dart';
 import 'package:firenzery/app/services/remote/adress.service.dart';
 import 'package:firenzery/app/services/remote/client_http.service.dart';
@@ -9,22 +11,17 @@ import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AdressPage extends StatefulWidget {
-  final UserModel user;
-  final AdressModel oldAdress;
-
-  AdressPage(this.oldAdress, this.user);
+  const AdressPage({Key? key}) : super(key: key);
 
   @override
   State<AdressPage> createState() => _AdressPageState();
 }
 
 class _AdressPageState extends State<AdressPage> {
-  final controller = AdressController(
-      AdressViewModel(AdressService(ClientHttpSevice())),
-      UserViewModel(
-          UserService(ClientHttpSevice()), SharedPreferencesService()));
+  late final controller;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -33,13 +30,41 @@ class _AdressPageState extends State<AdressPage> {
   final TextEditingController _controllerBlock = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    controller = context.read<AdressController>();
+
+    controller.addListener(() {
+      if (controller.state == AdressState.success) {
+        if (controller.adressModel.value.idAdress != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NavigationBarComponent()),
+          );
+        }
+      } else if (controller.state == AdressState.error) {
+        showAlertDialog(context, 'Erro ao atualizar seu endereço!', 'Endereço');
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool adressExist = widget.oldAdress.idAdress != null;
+    AdressViewModel adressViewModel =
+        Provider.of<AdressViewModel>(context, listen: false);
+
+    UserViewModel userViewModel =
+        Provider.of<UserViewModel>(context, listen: false);
+
+    AdressModel adress = adressViewModel.adressModel;
+    UserModel user = userViewModel.userModel;
+
+    bool adressExist = adress.idAdress != null;
 
     if (adressExist) {
-      _controllerApartment.text = '${widget.oldAdress.apartment}';
-      _controllerGroup.text = '${widget.oldAdress.group}';
-      _controllerBlock.text = '${widget.oldAdress.block}';
+      _controllerApartment.text = '${adress.apartment}';
+      _controllerGroup.text = '${adress.group}';
+      _controllerBlock.text = '${adress.block}';
     }
 
     return Scaffold(
@@ -153,29 +178,25 @@ class _AdressPageState extends State<AdressPage> {
                                   onPressed: () {
                                     if (adressExist) {
                                       controller.updateAdress(
-                                          context,
                                           AdressModel(
-                                              idClient:
-                                                  widget.oldAdress.idClient,
-                                              idAdress:
-                                                  widget.oldAdress.idAdress,
+                                              idClient: adress.idClient,
+                                              idAdress: adress.idAdress,
                                               apartment: int.parse(
                                                   _controllerApartment.text),
                                               group: int.parse(
                                                   _controllerGroup.text),
                                               block: _controllerBlock.text),
-                                          widget.user);
+                                          adressViewModel);
                                     } else {
                                       controller.createAdress(
-                                          context,
                                           AdressModel(
-                                              idClient: widget.user.idClient,
+                                              idClient: user.idClient,
                                               apartment: int.parse(
                                                   _controllerApartment.text),
                                               group: int.parse(
                                                   _controllerGroup.text),
                                               block: _controllerBlock.text),
-                                          widget.user);
+                                          adressViewModel);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(

@@ -3,48 +3,46 @@ import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/login/components/alertDialog.dart';
+import 'package:firenzery/app/services/remote/adress.service.dart';
+import 'package:firenzery/app/services/remote/client_http.service.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:flutter/material.dart';
 
-class AdressController extends AdressPage {
-  AdressViewModel adressViewModel;
-  UserViewModel userViewModel;
+enum AdressState { idle, error, success, loading }
 
-  AdressController(this.adressViewModel, this.userViewModel)
-      : super(AdressModel(), UserModel());
+class AdressController extends ChangeNotifier {
+  AdressState state = AdressState.idle;
 
-  ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
-
-  updateAdress(context, newAdress, user) async {
+  updateAdress(AdressModel newAdress, AdressViewModel adressViewModel) async {
     try {
+      state = AdressState.loading;
+      notifyListeners();
+
       await adressViewModel.updateAdress(newAdress);
 
-      if (adressModel.value.idAdress != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NavigationBarComponent()),
-        );
-      }
+      state = AdressState.success;
+      notifyListeners();
     } catch (error) {
-      showAlertDialog(context, 'Erro ao atualizar seu endereço!', 'Endereço');
+      state = AdressState.error;
+      notifyListeners();
     }
   }
 
-  createAdress(context, newAdress, idClient) async {
+  createAdress(AdressModel newAdress, AdressViewModel adressViewModel) async {
     try {
-      newAdress.idClient = idClient;
+      state = AdressState.loading;
+      notifyListeners();
+
+      newAdress.idClient = newAdress.idClient;
 
       await adressViewModel.createAdress(newAdress);
 
-      if (adressModel.value.idAdress != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NavigationBarComponent()),
-        );
-      }
+      state = AdressState.success;
+      notifyListeners();
     } catch (error) {
-      showAlertDialog(context, 'Erro ao atualizar seu endereço!', 'Endereço');
+      state = AdressState.error;
+      notifyListeners();
     }
   }
 }

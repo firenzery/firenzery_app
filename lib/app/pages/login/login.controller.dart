@@ -11,21 +11,12 @@ import '../../viewmodels/user.viewmodel.dart';
 enum AuthState { idle, success, error, errorServer, loading }
 
 class LoginController extends ChangeNotifier {
-  final UserViewModel userViewModel = UserViewModel(
-      UserService(ClientHttpSevice()), SharedPreferencesService());
-  final AdressViewModel adressViewModel =
-      AdressViewModel(AdressService(ClientHttpSevice()));
-
   AuthState state = AuthState.idle;
 
   late final messageError;
-  late UserModel user;
-  late AdressModel adress;
 
-  ValueNotifier<UserModel> get userModel => userViewModel.userModelNotifier;
-  ValueNotifier<AdressModel> get adressModel => adressViewModel.adressModel;
-
-  login(email, password, keepConnected) async {
+  login(String email, String password, bool keepConnected,
+      UserViewModel userViewModel, AdressViewModel adressViewModel) async {
     state = AuthState.loading;
     notifyListeners();
 
@@ -35,14 +26,11 @@ class LoginController extends ChangeNotifier {
       if (resp.statusCode == 200) {
         if (keepConnected) {
           await userViewModel.saveCredentialsLocale(
-              'idClient', userModel.value.idClient);
+              'idClient', userViewModel.userModel.idClient);
           await userViewModel.saveCredentialsLocale('email', email);
           await userViewModel.saveCredentialsLocale('password', password);
         }
-        await adressViewModel.getAdress(userModel.value.idClient);
-
-        user = userModel.value;
-        adress = adressModel.value;
+        await adressViewModel.getAdress(userViewModel.userModel.idClient!);
 
         state = AuthState.success;
         notifyListeners();

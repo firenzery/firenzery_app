@@ -18,7 +18,7 @@ class ListProductsPage extends StatelessWidget {
         allProducts: allProducts, categoryId: categoryId, title: title);
 
     List productsList = categoryId != null
-        ? controller.getProductsbyCategory(categoryId)
+        ? controller.getProductsbyCategory(categoryId!)
         : allProducts;
 
     return Scaffold(

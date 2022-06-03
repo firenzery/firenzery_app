@@ -1,26 +1,26 @@
 import 'package:firenzery/app/interfaces/locale_storage.interface.dart';
 import 'package:firenzery/app/interfaces/user.interface.dart';
 import 'package:firenzery/app/models/user.model.dart';
+import 'package:firenzery/app/services/local/shared_preferences.service.dart';
+import 'package:firenzery/app/services/remote/client_http.service.dart';
+import 'package:firenzery/app/services/remote/user.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 
-class UserViewModel {
-  final IUser userService;
-  final ILocaleStorage localeService;
+class UserViewModel extends ChangeNotifier {
+  final IUser userService = UserService(ClientHttpSevice());
+  final ILocaleStorage localeService = SharedPreferencesService();
 
-  final userModelNotifier = ValueNotifier<UserModel>(UserModel());
+  UserModel userModel = UserModel();
 
-  UserViewModel(this.userService, this.localeService);
-
-  getUser(id) async {
+  getUser(int id) async {
     try {
       var resp = await userService.getUser(id);
 
-      userModelNotifier.value =
-          UserModel.fromJson(convert.jsonDecode(resp.body));
+      userModel = UserModel.fromJson(convert.jsonDecode(resp.body));
 
-      return resp;
+      notifyListeners();
     } catch (error) {
       throw error;
     }
@@ -31,23 +31,23 @@ class UserViewModel {
       var resp = await userService.register(user);
 
       if (resp.statusCode == 200) {
-        userModelNotifier.value =
-            UserModel.fromJson(convert.jsonDecode(resp.body));
-      }
+        userModel = UserModel.fromJson(convert.jsonDecode(resp.body));
 
-      return resp;
+        notifyListeners();
+      }
     } catch (error) {
       throw error;
     }
   }
 
-  login(email, password) async {
+  login(String email, String password) async {
     try {
       var resp = await userService.login(email, password);
 
       if (resp.statusCode == 200) {
-        userModelNotifier.value =
-            UserModel.fromJson(convert.jsonDecode(resp.body));
+        userModel = UserModel.fromJson(convert.jsonDecode(resp.body));
+
+        notifyListeners();
       }
 
       return resp;

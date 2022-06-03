@@ -1,5 +1,8 @@
 import 'package:firenzery/app/components/buttom_navigation.component.dart';
+import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/pages/login/components/alertDialog.dart';
+import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +57,12 @@ class _State extends State<LoginPage> {
       }
       return primaryColor;
     }
+
+    UserViewModel userViewModel =
+        Provider.of<UserViewModel>(context, listen: false);
+
+    AdressViewModel adressViewModel =
+        Provider.of<AdressViewModel>(context, listen: false);
 
     return Scaffold(
       body: Container(
@@ -137,7 +146,8 @@ class _State extends State<LoginPage> {
                       (BuildContext context, controller, Widget? child) {
                     return ElevatedButton(
                       onPressed: () {
-                        controller.login(email, password, isChecked);
+                        controller.login(email, password, isChecked,
+                            userViewModel, adressViewModel);
                         controller.state == AuthState.loading
                             ? null
                             : () {

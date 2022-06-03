@@ -19,9 +19,6 @@ import 'package:flutter/material.dart';
 enum AuthState { idle, loading, unauthenticated, authenticated }
 
 class SplashController extends ChangeNotifier {
-  final UserViewModel userViewModel = UserViewModel(
-      UserService(ClientHttpSevice()), SharedPreferencesService());
-
   final ILocaleStorage service = SharedPreferencesService();
 
   late int userId;
@@ -32,8 +29,6 @@ class SplashController extends ChangeNotifier {
 
   String? email;
   String? password;
-
-  ValueNotifier<UserModel> get userModel => userViewModel.userModelNotifier;
 
   AuthState state = AuthState.idle;
 
@@ -52,7 +47,7 @@ class SplashController extends ChangeNotifier {
     }
   }
 
-  navigateToPage() async {
+  navigateToPage(userViewModel) async {
     state = AuthState.loading;
     notifyListeners();
 
@@ -61,8 +56,6 @@ class SplashController extends ChangeNotifier {
     if (verify!) {
       userId = await service.getValue('idClient');
       await userViewModel.getUser(userId);
-
-      user = userModel.value;
 
       state = AuthState.authenticated;
       notifyListeners();

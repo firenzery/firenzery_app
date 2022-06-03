@@ -1,25 +1,26 @@
 import 'package:firenzery/app/interfaces/products.interface.dart';
 import 'package:firenzery/app/models/product.model.dart';
+import 'package:firenzery/app/services/remote/client_http.service.dart';
+import 'package:firenzery/app/services/remote/products.service.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 
-class ProductsViewModel {
-  final productModel = ValueNotifier<ProductModel>(
-      ProductModel(image: null, name: null, price: null, type: null));
+class ProductsViewModel extends ChangeNotifier {
+  final IProducts service = ProductsService(ClientHttpSevice());
 
-  IProducts service;
-
-  ProductsViewModel(this.service);
+  List<ProductModel> products = [];
+  List<ProductModel> newArrivedProducts = [];
 
   getAllProducts() async {
     try {
       var response = await service.getAllProducts();
 
-      List products = convert.jsonDecode(response.body);
+      List productsBody = convert.jsonDecode(response.body);
 
-      products = products.map((data) => ProductModel.fromJson(data)).toList();
+      products =
+          productsBody.map((data) => ProductModel.fromJson(data)).toList();
 
-      return products;
+      notifyListeners();
     } catch (error) {
       throw error;
     }
@@ -29,13 +30,13 @@ class ProductsViewModel {
     try {
       var response = await service.getNewArrivedProducts();
 
-      List newArrivedProducts = convert.jsonDecode(response.body);
+      List newArrivedProductsBody = convert.jsonDecode(response.body);
 
-      newArrivedProducts = newArrivedProducts
+      newArrivedProducts = newArrivedProductsBody
           .map((data) => ProductModel.fromJson(data))
           .toList();
 
-      return newArrivedProducts;
+      notifyListeners();
     } catch (error) {
       throw error;
     }

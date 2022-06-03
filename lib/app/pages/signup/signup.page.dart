@@ -20,8 +20,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  final controller = SignUpController(UserViewModel(
-      UserService(ClientHttpSevice()), SharedPreferencesService()));
+  late final controller;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

@@ -1,10 +1,15 @@
 import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
+import 'package:firenzery/app/pages/address/adress.controller.dart';
 import 'package:firenzery/app/pages/home/home.controller.dart';
 import 'package:firenzery/app/pages/login/login.controller.dart';
 import 'package:firenzery/app/pages/person/person.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.page.dart';
+import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
@@ -23,12 +28,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          //Controllers
           ChangeNotifierProvider(create: (context) => LoginController()),
           ChangeNotifierProvider(create: (context) => PersonController()),
           ChangeNotifierProvider(create: (context) => SplashController()),
           ChangeNotifierProvider(create: (context) => HomeController()),
-          ChangeNotifierProvider(create: (context) => UserModel()),
-          ChangeNotifierProvider(create: (context) => AdressModel()),
+          ChangeNotifierProvider(create: (context) => AdressController()),
+
+          //ViewModels
+          ChangeNotifierProvider(create: (context) => UserViewModel()),
+          ChangeNotifierProvider(create: (context) => AdressViewModel()),
+          ChangeNotifierProvider(create: (context) => CategoriesViewModel()),
+          ChangeNotifierProvider(create: (context) => ProductsViewModel())
         ],
         child: MaterialApp(
             title: 'Main',
