@@ -27,7 +27,8 @@ class ProductCard extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: double.infinity,
+              height: 132,
+              width: 132,
               decoration: const BoxDecoration(
                 borderRadius:
                     BorderRadius.all(Radius.circular(defaultBorderRadius)),

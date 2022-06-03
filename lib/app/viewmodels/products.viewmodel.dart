@@ -9,7 +9,20 @@ class ProductsViewModel extends ChangeNotifier {
   final IProducts service = ProductsService(ClientHttpSevice());
 
   List<ProductModel> products = [];
+  List<ProductModel> cartProducts = [];
   List<ProductModel> newArrivedProducts = [];
+
+  alterValues(List<ProductModel> productList) {
+    cartProducts = productList;
+    notifyListeners();
+  }
+
+  addProductCart(ProductModel product) {
+    if (!cartProducts.any((data) => data.idProduct == product.idProduct)) {
+      cartProducts.add(product);
+      notifyListeners();
+    }
+  }
 
   getAllProducts() async {
     try {

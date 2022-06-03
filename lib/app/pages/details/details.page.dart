@@ -1,14 +1,25 @@
 import 'package:firenzery/app/models/product.model.dart';
+import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quantity_input/quantity_input.dart';
 
-class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key, required this.product}) : super(key: key);
+class DetailsPage extends StatefulWidget {
+  ProductModel product;
 
-  final ProductModel product;
+  DetailsPage({Key? key, required this.product}) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _DatailsPageState();
+}
+
+class _DatailsPageState extends State<DetailsPage> {
+  @override
   Widget build(BuildContext context) {
+    ProductsViewModel productsViewModel =
+        Provider.of<ProductsViewModel>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
@@ -18,7 +29,7 @@ class DetailsPage extends StatelessWidget {
         children: [
           const SizedBox(height: defaultPadding * 3),
           Image.network(
-            product.image!,
+            widget.product.image!,
             height: MediaQuery.of(context).size.height * 0.4,
             fit: BoxFit.cover,
             loadingBuilder: (BuildContext context, Widget child,
@@ -54,35 +65,49 @@ class DetailsPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          product.name!,
+                          widget.product.name!,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ),
                       const SizedBox(width: defaultPadding),
                       Text(
-                        "\$${product.price}",
+                        "\$${widget.product.price}",
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ],
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: defaultPadding),
-                    child: Text(product.description!),
+                    child: Text(widget.product.description!),
                   ),
                   const SizedBox(height: defaultPadding * 8),
-                  Center(
-                    child: SizedBox(
-                      width: 200,
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
-                            shape: const StadiumBorder()),
-                        child: const Text("Adicionar ao Carrinho"),
-                      ),
-                    ),
-                  )
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        QuantityInput(
+                            inputWidth: 30,
+                            buttonColor: primaryColor,
+                            value: widget.product.quantity,
+                            onChanged: (value) {
+                              setState(() => widget.product.quantity =
+                                  int.parse(value.replaceAll(',', '')));
+                            }),
+                        SizedBox(
+                          width: 200,
+                          height: 48,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              productsViewModel.addProductCart(widget.product);
+                              Future.delayed(const Duration(milliseconds: 500),
+                                  () => Navigator.pop(context));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: primaryColor,
+                                shape: const StadiumBorder()),
+                            child: const Text("Adicionar ao Carrinho"),
+                          ),
+                        ),
+                      ])
                 ],
               ),
             ),
