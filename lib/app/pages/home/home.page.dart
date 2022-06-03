@@ -32,56 +32,36 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final HomeController controller;
 
-  late AdressViewModel adressViewModel;
-  late UserViewModel userViewModel;
-  late CategoriesViewModel categoriesViewModel;
-  late ProductsViewModel productsViewModel;
-
-  UserModel user = UserModel();
-  AdressModel adress = AdressModel();
-
-  List<CategoryModel> allCategories = [];
-  List<ProductModel> allProducts = [];
-  List<ProductModel> newArrivalProducts = [];
-
   @override
   void initState() {
     controller = context.read<HomeController>();
 
-    adressViewModel = Provider.of<AdressViewModel>(context, listen: false);
-
-    userViewModel = Provider.of<UserViewModel>(context, listen: false);
-
-    categoriesViewModel =
-        Provider.of<CategoriesViewModel>(context, listen: false);
-
-    productsViewModel = Provider.of<ProductsViewModel>(context, listen: false);
-
     controller.addListener(() {
-      addValues();
       if (controller.state == GetValuesState.loading) {
       } else if (controller.state == GetValuesState.error) {}
     });
 
-    addValues();
-
     super.initState();
-  }
-
-  addValues() {
-    user = userViewModel.userModel;
-    adress = adressViewModel.adressModel;
-    allCategories = categoriesViewModel.categories;
-    allProducts = productsViewModel.products;
-    newArrivalProducts = productsViewModel.newArrivedProducts;
   }
 
   @override
   Widget build(BuildContext context) {
+    AdressViewModel adressViewModel =
+        Provider.of<AdressViewModel>(context, listen: false);
+
+    UserViewModel userViewModel =
+        Provider.of<UserViewModel>(context, listen: false);
+
+    CategoriesViewModel categoriesViewModel =
+        Provider.of<CategoriesViewModel>(context, listen: false);
+
+    ProductsViewModel productsViewModel =
+        Provider.of<ProductsViewModel>(context, listen: false);
+
     Future.delayed(
         const Duration(milliseconds: 2000),
-        () => controller.getValues(user.idClient!, categoriesViewModel,
-            productsViewModel, adressViewModel));
+        () => controller.getValues(userViewModel.userModel.idClient!,
+            categoriesViewModel, productsViewModel, adressViewModel));
 
     return Scaffold(
         appBar: AppBar(
@@ -96,8 +76,8 @@ class _HomePageState extends State<HomePage> {
                   builder: (BuildContext context, controller, Widget? child) {
                 return InkWell(
                     child: Text(
-                      adress.idClient != null
-                          ? '${adress.apartment}${adress.block} GRUPO ${adress.group}'
+                      adressViewModel.adressModel.idClient != null
+                          ? '${adressViewModel.adressModel.apartment}${adressViewModel.adressModel.block} GRUPO ${adressViewModel.adressModel.group}'
                           : 'CADASTRAR ENDEREÇO',
                       style: const TextStyle(
                           fontSize: 16,
@@ -130,8 +110,11 @@ class _HomePageState extends State<HomePage> {
         body: RefreshIndicator(
           color: Colors.white,
           backgroundColor: primaryColor,
-          onRefresh: (() => controller.getValues(user.idClient!,
-              categoriesViewModel, productsViewModel, adressViewModel)),
+          onRefresh: (() => controller.getValues(
+              userViewModel.userModel.idClient!,
+              categoriesViewModel,
+              productsViewModel,
+              adressViewModel)),
           child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
@@ -158,10 +141,13 @@ class _HomePageState extends State<HomePage> {
                           EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
                       child: SearchForm(),
                     ),
-                    Categories(allCategories, allProducts),
-                    NewArrivalProducts(newArrivalProducts),
+                    Categories(categoriesViewModel.categories,
+                        productsViewModel.newArrivedProducts),
+                    NewArrivalProducts(productsViewModel.newArrivedProducts),
                     PopularProducts(
-                        popularProductsList: allProducts, categoryId: 1)
+                        popularProductsList:
+                            productsViewModel.newArrivedProducts,
+                        categoryId: 1)
                   ],
                 );
               })),
