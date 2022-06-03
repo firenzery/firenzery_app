@@ -10,13 +10,20 @@ const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
 class SearchForm extends StatelessWidget {
   const SearchForm({
     Key? key,
+    this.changed,
+    this.saved,
   }) : super(key: key);
+
+  final changed;
+  final saved;
 
   @override
   Widget build(BuildContext context) {
     return Form(
       child: TextFormField(
-        onSaved: (value) {},
+        onChanged: changed,
+        textInputAction: TextInputAction.search,
+        onFieldSubmitted: saved,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,

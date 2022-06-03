@@ -22,6 +22,16 @@ enum GetValuesState { idle, error, success, loading }
 class HomeController extends ChangeNotifier {
   GetValuesState state = GetValuesState.idle;
 
+  List<ProductModel> searchList = [];
+
+  searchItens(String search, ProductsViewModel productsViewModel) {
+    searchList = productsViewModel.products
+        .where((product) =>
+            product.name!.toLowerCase().contains(search.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
+
   getValues(
       int userId,
       CategoriesViewModel categoriesViewModel,

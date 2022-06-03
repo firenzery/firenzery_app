@@ -5,6 +5,7 @@ import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/cart/cart.page.dart';
 import 'package:firenzery/app/pages/home/home.controller.dart';
+import 'package:firenzery/app/pages/list_products/list_products.page.dart';
 import 'package:firenzery/app/pages/login/login.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AdressPage()));
+                              builder: (context) => const AdressPage()));
                     });
               })
             ],
@@ -136,11 +137,18 @@ class _HomePageState extends State<HomePage> {
                       "O melhor do parque firenzy",
                       style: TextStyle(fontSize: 18),
                     ),
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
-                      child: SearchForm(),
-                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: defaultPadding * 1.5),
+                        child: SearchForm(
+                            changed: (value) => controller.searchItens(
+                                value, productsViewModel),
+                            saved: (value) => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListProductsPage(
+                                        allProducts: controller.searchList,
+                                        title: 'Produtos'))))),
                     Categories(categoriesViewModel.categories,
                         productsViewModel.newArrivedProducts),
                     NewArrivalProducts(productsViewModel.newArrivedProducts),
