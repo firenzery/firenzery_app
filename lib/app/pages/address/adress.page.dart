@@ -29,14 +29,20 @@ class _AdressPageState extends State<AdressPage> {
   final TextEditingController _controllerGroup = TextEditingController();
   final TextEditingController _controllerBlock = TextEditingController();
 
+  late AdressViewModel adressViewModel;
+  late UserViewModel userViewModel;
+
   @override
   void initState() {
     super.initState();
     controller = context.read<AdressController>();
 
+    adressViewModel = Provider.of<AdressViewModel>(context, listen: false);
+    userViewModel = Provider.of<UserViewModel>(context, listen: false);
+
     controller.addListener(() {
       if (controller.state == AdressState.success) {
-        if (controller.adressModel.value.idAdress != null) {
+        if (adressViewModel.adressModel.idAdress != null) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NavigationBarComponent()),
@@ -50,12 +56,6 @@ class _AdressPageState extends State<AdressPage> {
 
   @override
   Widget build(BuildContext context) {
-    AdressViewModel adressViewModel =
-        Provider.of<AdressViewModel>(context, listen: false);
-
-    UserViewModel userViewModel =
-        Provider.of<UserViewModel>(context, listen: false);
-
     AdressModel adress = adressViewModel.adressModel;
     UserModel user = userViewModel.userModel;
 
