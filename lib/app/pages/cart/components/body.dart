@@ -1,5 +1,5 @@
 import 'package:firenzery/app/pages/cart/cart.controller.dart';
-import 'package:firenzery/app/pages/cartTeste/cart_screen.dart';
+import 'package:firenzery/app/pages/cart/cart.page.dart';
 import 'package:firenzery/app/pages/details/details.page.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
 import 'package:firenzery/constants.dart';
@@ -73,10 +73,10 @@ class _BodyState extends State<Body> {
                               builder: (context) => DetailsPage(
                                   product:
                                       productsViewModel.cartProducts[index]),
-                            )).then((value) => Navigator.push(
+                            )).then((value) => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CartScreen(),
+                              builder: (context) => CartPage(),
                             )));
                       },
                     ),
