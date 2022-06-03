@@ -36,7 +36,7 @@ class _State extends State<LoginPage> {
       } else if (controller.state == AuthState.errorServer) {
         showAlertDialog(context, 'Erro no Servidor!', 'Login');
       } else if (controller.state == AuthState.success) {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => NavigationBarComponent()),
         );
@@ -145,20 +145,8 @@ class _State extends State<LoginPage> {
                   child: Consumer<LoginController>(builder:
                       (BuildContext context, controller, Widget? child) {
                     return ElevatedButton(
-                      onPressed: () {
-                        controller.login(email, password, isChecked,
-                            userViewModel, adressViewModel);
-                        controller.state == AuthState.loading
-                            ? null
-                            : () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          NavigationBarComponent()),
-                                );
-                              };
-                      },
+                      onPressed: () => controller.login(email, password,
+                          isChecked, userViewModel, adressViewModel),
                       style: ElevatedButton.styleFrom(
                           primary: primaryColor, shape: const StadiumBorder()),
                       child: const Text("Login"),

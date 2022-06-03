@@ -98,8 +98,7 @@ class _DatailsPageState extends State<DetailsPage> {
                           child: ElevatedButton(
                             onPressed: () {
                               productsViewModel.addProductCart(widget.product);
-                              Future.delayed(const Duration(milliseconds: 500),
-                                  () => Navigator.pop(context));
+                              Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: primaryColor,

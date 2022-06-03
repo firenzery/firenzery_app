@@ -24,7 +24,7 @@ class _PersonPageState extends State<PersonPage> {
       if (controller.state == ExitState.success) {
         Future.delayed(
             Duration(milliseconds: 1000),
-            () => Navigator.push(
+            () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 ));

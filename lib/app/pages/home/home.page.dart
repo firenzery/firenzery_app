@@ -4,6 +4,7 @@ import 'package:firenzery/app/models/product.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/cart/cart.page.dart';
+import 'package:firenzery/app/pages/cartTeste/cart_screen.dart';
 import 'package:firenzery/app/pages/home/home.controller.dart';
 import 'package:firenzery/app/pages/login/login.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CartPage(),
+                    builder: (context) => CartScreen(),
                   ),
                 );
               },

@@ -23,12 +23,12 @@ class _SplashPageState extends State<SplashPage> {
 
     controller.addListener(() {
       if (controller.state == AuthState.authenticated) {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => NavigationBarComponent()),
         );
       } else if (controller.state == AuthState.unauthenticated) {
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
     });
