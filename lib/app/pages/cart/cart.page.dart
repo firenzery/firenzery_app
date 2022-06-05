@@ -20,6 +20,10 @@ class _CartPageState extends State<CartPage> {
   void initState() {
     controller = context.read<CartController>();
     productsViewModel = Provider.of<ProductsViewModel>(context, listen: false);
+
+    productsViewModel.addListener(() {
+      controller.calcMaxValue(productsViewModel.cartProducts);
+    });
   }
 
   @override
@@ -27,8 +31,7 @@ class _CartPageState extends State<CartPage> {
     SizeConfig().init(context);
     return Scaffold(
       appBar: buildAppBar(context),
-      body: Consumer<ProductsViewModel>(
-          builder: (context, value, Widget? child) => Body()),
+      body: Body(),
       bottomNavigationBar: Consumer<CartController>(
           builder: (context, value, Widget? child) =>
               CheckoutCard(total: controller.total)),

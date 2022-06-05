@@ -12,6 +12,10 @@ class ProductsViewModel extends ChangeNotifier {
   List<ProductModel> cartProducts = [];
   List<ProductModel> newArrivedProducts = [];
 
+  refreshValues() {
+    notifyListeners();
+  }
+
   alterValues(List<ProductModel> productList) {
     cartProducts = productList;
     notifyListeners();
