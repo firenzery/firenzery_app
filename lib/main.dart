@@ -2,6 +2,7 @@ import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
 import 'package:firenzery/app/pages/address/adress.controller.dart';
 import 'package:firenzery/app/pages/cart/cart.controller.dart';
+import 'package:firenzery/app/pages/finalize_purchase/finalize_purchase.controller.dart';
 import 'package:firenzery/app/pages/home/home.controller.dart';
 import 'package:firenzery/app/pages/login/login.controller.dart';
 import 'package:firenzery/app/pages/person/person.controller.dart';
@@ -36,6 +37,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => HomeController()),
           ChangeNotifierProvider(create: (context) => AdressController()),
           ChangeNotifierProvider(create: (context) => CartController()),
+          ChangeNotifierProvider(
+              create: (context) => FinalizePurchaseController()),
 
           //ViewModels
           ChangeNotifierProvider(create: (context) => UserViewModel()),

@@ -1,18 +1,21 @@
+import 'package:firenzery/app/pages/cart/cart.controller.dart';
+import 'package:firenzery/app/pages/finalize_purchase/finalize_purchase.page.dart';
 import 'package:firenzery/constants.dart';
 import 'package:firenzery/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CheckoutCard extends StatelessWidget {
-  const CheckoutCard({
-    Key? key,
-    required this.total,
-  }) : super(key: key);
+  const CheckoutCard({Key? key, required this.total, required this.button})
+      : super(key: key);
 
+  final button;
   final double total;
 
   @override
   Widget build(BuildContext context) {
+    CartController controller;
+
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: getProportionateScreenWidth(15),
@@ -55,13 +58,7 @@ class CheckoutCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                    width: getProportionateScreenWidth(190),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          primary: primaryColor, shape: const StadiumBorder()),
-                      child: const Text("Finalizar"),
-                    )),
+                    width: getProportionateScreenWidth(190), child: button),
               ],
             ),
           ],
