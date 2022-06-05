@@ -47,7 +47,7 @@ class CheckoutCard extends StatelessWidget {
                     text: "Total:\n",
                     children: [
                       TextSpan(
-                        text: 'R\$ $total',
+                        text: 'R\$ ${total.toStringAsFixed(2)}',
                         style:
                             const TextStyle(fontSize: 16, color: Colors.black),
                       ),

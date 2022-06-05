@@ -150,11 +150,10 @@ class _HomePageState extends State<HomePage> {
                                         allProducts: controller.searchList,
                                         title: 'Produtos'))))),
                     Categories(categoriesViewModel.categories,
-                        productsViewModel.newArrivedProducts),
+                        productsViewModel.products),
                     NewArrivalProducts(productsViewModel.newArrivedProducts),
                     PopularProducts(
-                        popularProductsList:
-                            productsViewModel.newArrivedProducts,
+                        popularProductsList: productsViewModel.products,
                         categoryId: 1)
                   ],
                 );

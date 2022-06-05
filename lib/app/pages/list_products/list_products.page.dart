@@ -35,8 +35,7 @@ class ListProductsPage extends StatelessWidget {
             children: List.generate(
               productsList.length,
               (index) => Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: defaultPadding / 4),
+                padding: const EdgeInsets.all(defaultPadding / 4),
                 child: ProductCard(
                   title: productsList[index].name,
                   image: productsList[index].image,

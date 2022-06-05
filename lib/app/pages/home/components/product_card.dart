@@ -25,31 +25,35 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
-              height: 132,
-              width: 132,
+              height: 120,
+              width: 120,
               decoration: const BoxDecoration(
                 borderRadius:
                     BorderRadius.all(Radius.circular(defaultBorderRadius)),
               ),
-              child: Image.network(
-                image,
-                height: 132,
-                fit: BoxFit.cover,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
-                    ),
-                  );
-                },
+              child: Center(
+                child: Image.network(
+                  image,
+                  height: 132,
+                  width: 132,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
             const SizedBox(height: defaultPadding / 2),
