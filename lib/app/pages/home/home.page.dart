@@ -87,9 +87,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AdressPage()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AdressPage()))
+                          .then((value) => controller.refreshValues());
                     });
               })
             ],

@@ -24,6 +24,10 @@ class HomeController extends ChangeNotifier {
 
   List<ProductModel> searchList = [];
 
+  refreshValues() {
+    notifyListeners();
+  }
+
   searchItens(String search, ProductsViewModel productsViewModel) {
     searchList = productsViewModel.products
         .where((product) =>

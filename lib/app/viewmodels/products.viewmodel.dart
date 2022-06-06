@@ -16,8 +16,8 @@ class ProductsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  alterValues(List<ProductModel> productList) {
-    cartProducts = productList;
+  clearCart() {
+    cartProducts = [];
     notifyListeners();
   }
 

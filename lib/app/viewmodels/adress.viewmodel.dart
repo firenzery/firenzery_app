@@ -10,6 +10,10 @@ class AdressViewModel extends ChangeNotifier {
 
   AdressModel adressModel = AdressModel();
 
+  refreshValues() {
+    notifyListeners();
+  }
+
   getAdress(int clientId) async {
     try {
       var adress = await service.getAdress(clientId);
