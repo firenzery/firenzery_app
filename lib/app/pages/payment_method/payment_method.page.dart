@@ -52,7 +52,8 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   onTap: () {
                     controller.paymentSelected =
                         controller.paymentMethodValues[index];
-                    Navigator.pop(context);
+                    Future.delayed(const Duration(milliseconds: 500),
+                        () => Navigator.pop(context));
                   },
                   child: Container(
                     height: 70,
