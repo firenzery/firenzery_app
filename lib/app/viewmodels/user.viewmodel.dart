@@ -22,7 +22,7 @@ class UserViewModel extends ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 
@@ -36,7 +36,7 @@ class UserViewModel extends ChangeNotifier {
         notifyListeners();
       }
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 
@@ -52,7 +52,7 @@ class UserViewModel extends ChangeNotifier {
 
       return resp;
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 

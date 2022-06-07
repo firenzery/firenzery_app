@@ -21,7 +21,7 @@ class CategoriesViewModel extends ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      return error;
+      rethrow;
     }
   }
 }

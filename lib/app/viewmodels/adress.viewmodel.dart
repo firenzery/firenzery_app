@@ -24,7 +24,7 @@ class AdressViewModel extends ChangeNotifier {
 
       return adress;
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 
@@ -38,7 +38,7 @@ class AdressViewModel extends ChangeNotifier {
 
       return newAdress;
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 
@@ -52,7 +52,7 @@ class AdressViewModel extends ChangeNotifier {
 
       return newAdress;
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 }

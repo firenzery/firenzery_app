@@ -3,7 +3,7 @@ class ProductModel {
   String? image, name, description;
   double? price;
   int? type;
-  DateTime? dateTime;
+  String? dateTime;
   int? quantity;
 
   ProductModel(
@@ -36,6 +36,7 @@ class ProductModel {
     data['type'] = type;
     data['description'] = description;
     data['dateTime'] = dateTime;
+    data['quantity'] = quantity;
     return data;
   }
 }

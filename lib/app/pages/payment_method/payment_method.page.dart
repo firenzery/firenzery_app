@@ -34,9 +34,9 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: defaultPadding),
-          const Text('Pague na entrega',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          // const SizedBox(height: defaultPadding),
+          // const Text('Pague na entrega',
+          //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: defaultPadding),
           Padding(
             padding: EdgeInsets.symmetric(

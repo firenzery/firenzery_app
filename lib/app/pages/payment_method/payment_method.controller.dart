@@ -12,22 +12,22 @@ class PaymentMethodController extends ChangeNotifier {
   getPaymentMethodValues() {
     if (paymentMethodValues.isEmpty) {
       paymentMethodValues.add(PaymentMethodModel(
-          type: 1,
+          payment: 1,
           name: 'DINHEIRO',
-          paymentApp: false,
+          paymentType: 1,
           icon: const Icon(
             Icons.payments,
             color: Colors.green,
           )));
       paymentMethodValues.add(PaymentMethodModel(
-          type: 2,
+          payment: 2,
           name: 'CARTÃO DE DÉBITO',
-          paymentApp: false,
+          paymentType: 1,
           icon: const Icon(Icons.credit_card)));
       paymentMethodValues.add(PaymentMethodModel(
-          type: 3,
+          payment: 3,
           name: 'CARTÃO DE CRÉDITO',
-          paymentApp: false,
+          paymentType: 1,
           icon: const Icon(Icons.credit_card)));
     }
   }

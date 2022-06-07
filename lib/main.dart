@@ -7,11 +7,14 @@ import 'package:firenzery/app/pages/home/home.controller.dart';
 import 'package:firenzery/app/pages/login/login.controller.dart';
 import 'package:firenzery/app/pages/payment_method/payment_method.controller.dart';
 import 'package:firenzery/app/pages/person/person.controller.dart';
+import 'package:firenzery/app/pages/request_detail/request_detail.controller.dart';
+import 'package:firenzery/app/pages/requests/requests.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.page.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/sale.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -38,16 +41,20 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => HomeController()),
           ChangeNotifierProvider(create: (context) => AdressController()),
           ChangeNotifierProvider(create: (context) => CartController()),
+          ChangeNotifierProvider(create: (context) => RequestController()),
           ChangeNotifierProvider(
               create: (context) => FinalizePurchaseController()),
           ChangeNotifierProvider(
               create: (context) => PaymentMethodController()),
+          ChangeNotifierProvider(
+              create: (context) => RequestDetailController()),
 
           //ViewModels
           ChangeNotifierProvider(create: (context) => UserViewModel()),
           ChangeNotifierProvider(create: (context) => AdressViewModel()),
           ChangeNotifierProvider(create: (context) => CategoriesViewModel()),
-          ChangeNotifierProvider(create: (context) => ProductsViewModel())
+          ChangeNotifierProvider(create: (context) => ProductsViewModel()),
+          ChangeNotifierProvider(create: (context) => SaleViewModel())
         ],
         child: MaterialApp(
             title: 'Main',

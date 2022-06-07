@@ -44,7 +44,7 @@ class _AdressPageState extends State<AdressPage> {
       if (controller.state == AdressState.success) {
         if (adressViewModel.adressModel.idAdress != null) {
           Future.delayed(
-              const Duration(milliseconds: 500), () => Navigator.pop(context));
+              const Duration(milliseconds: 100), () => Navigator.pop(context));
         }
       } else if (controller.state == AdressState.error) {
         showAlertDialog(context, 'Erro ao atualizar seu endereço!', 'Endereço');

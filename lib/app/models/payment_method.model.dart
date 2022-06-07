@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PaymentMethodModel {
-  int? type;
+  int? payment;
   String? name;
-  bool? paymentApp;
+  int? paymentType;
   Icon? icon;
 
-  PaymentMethodModel({this.type, this.name, this.paymentApp, this.icon});
+  PaymentMethodModel({this.payment, this.name, this.paymentType, this.icon});
 }

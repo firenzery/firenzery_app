@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firenzery/app/models/sale.model.dart';
 import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/cart/cart.controller.dart';
 import 'package:firenzery/app/pages/cart/components/cart_card.dart';
@@ -12,6 +13,8 @@ import 'package:firenzery/app/pages/request_detail/request_detail.page.dart';
 import 'package:firenzery/app/pages/requests/requests.page.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/sale.viewmodel.dart';
+import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -33,7 +36,9 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
   late final CartController cartController;
   late final ProductsViewModel productsViewModel;
   late final AdressViewModel adressViewModel;
+  late final UserViewModel userViewModel;
   late final PaymentMethodController paymentMethodController;
+  late final SaleViewModel saleViewModel;
 
   int _state = 0;
 
@@ -41,10 +46,27 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
   void initState() {
     controller = context.read<FinalizePurchaseController>();
     cartController = Provider.of<CartController>(context, listen: false);
+    saleViewModel = Provider.of<SaleViewModel>(context, listen: false);
     productsViewModel = Provider.of<ProductsViewModel>(context, listen: false);
+    userViewModel = Provider.of<UserViewModel>(context, listen: false);
     adressViewModel = Provider.of<AdressViewModel>(context, listen: false);
     paymentMethodController =
         Provider.of<PaymentMethodController>(context, listen: false);
+
+    controller.addListener(() {
+      if (controller.state == FinalizePurchaseState.success) {
+        productsViewModel.clearCart();
+        controller.state = FinalizePurchaseState.idle;
+        Future.delayed(
+            const Duration(milliseconds: 1000),
+            () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        RequestDetailPage(sale: saleViewModel.saleRequest))));
+      }
+    });
+
     super.initState();
   }
 
@@ -62,7 +84,9 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
         child: Column(
           children: [
             Container(
-              height: 380,
+              height: productsViewModel.cartProducts.length >= 5
+                  ? 380
+                  : productsViewModel.cartProducts.length * 90,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
@@ -246,17 +270,22 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
                   ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: primaryColor, shape: const StadiumBorder()),
-                child: setUpButtonChild(),
                 onPressed: adressViewModel.adressModel.idAdress != null &&
                         paymentMethodController.paymentSelected != null
                     ? () {
-                        setState(() {
-                          if (_state == 0) {
-                            animateButton();
-                          }
-                        });
+                        controller.addSaleByUser(
+                            saleViewModel,
+                            SaleModel(
+                                idClient: userViewModel.userModel.idClient,
+                                payment: paymentMethodController
+                                    .paymentSelected!.payment,
+                                total: cartController.total,
+                                paymentType: paymentMethodController
+                                    .paymentSelected!.paymentType),
+                            productsViewModel.cartProducts);
                       }
                     : null,
+                child: setUpButtonChild(),
               ),
             ),
           ),
@@ -266,7 +295,7 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
   }
 
   Widget setUpButtonChild() {
-    if (_state == 0) {
+    if (controller.state == FinalizePurchaseState.idle) {
       return const Text(
         "Fazer pedido",
         style: TextStyle(
@@ -274,7 +303,7 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
           fontSize: 16.0,
         ),
       );
-    } else if (_state == 1) {
+    } else if (controller.state == FinalizePurchaseState.loading) {
       return const SizedBox(
         width: 16,
         height: 16,
@@ -285,24 +314,5 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
     } else {
       return const Icon(Icons.check, color: Colors.white);
     }
-  }
-
-  void animateButton() {
-    setState(() {
-      _state = 1;
-    });
-
-    Timer(const Duration(milliseconds: 3300), () {
-      setState(() {
-        _state = 2;
-        productsViewModel.clearCart();
-        Future.delayed(
-            const Duration(milliseconds: 500),
-            () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const RequestDetailPage())));
-      });
-    });
   }
 }

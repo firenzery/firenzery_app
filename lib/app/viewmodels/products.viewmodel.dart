@@ -39,7 +39,7 @@ class ProductsViewModel extends ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 
@@ -55,7 +55,7 @@ class ProductsViewModel extends ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 }
