@@ -57,13 +57,12 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
       if (controller.state == FinalizePurchaseState.success) {
         productsViewModel.clearCart();
         controller.state = FinalizePurchaseState.idle;
-        Future.delayed(
-            const Duration(milliseconds: 1000),
-            () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        RequestDetailPage(sale: saleViewModel.saleRequest))));
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    RequestDetailPage(sale: saleViewModel.saleRequest)));
       }
     });
 

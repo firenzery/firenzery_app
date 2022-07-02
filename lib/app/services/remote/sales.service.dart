@@ -36,4 +36,14 @@ class SalesService implements ISales {
       rethrow;
     }
   }
+
+  @override
+  Future alterStateSale(int idSale, int state) async {
+    try {
+      return await client
+          .put("$url/sales/state", {"idSale": idSale, "state": state});
+    } catch (err) {
+      rethrow;
+    }
+  }
 }

@@ -5,4 +5,5 @@ abstract class ISales {
   Future getSalesByUser(int idClient);
   Future addSaleByUser(SaleModel sale, List<ProductModel> products);
   Future getProductsBySaleId(int idSale);
+  Future alterStateSale(int idSale, int state);
 }

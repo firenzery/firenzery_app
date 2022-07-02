@@ -56,4 +56,14 @@ class SaleViewModel extends ChangeNotifier {
       rethrow;
     }
   }
+
+  alterStateSale(int idSale, int state) async {
+    try {
+      var resp = await service.alterStateSale(idSale, state);
+      notifyListeners();
+      return resp;
+    } catch (error) {
+      rethrow;
+    }
+  }
 }
