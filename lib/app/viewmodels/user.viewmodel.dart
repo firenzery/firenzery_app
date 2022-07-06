@@ -35,6 +35,7 @@ class UserViewModel extends ChangeNotifier {
 
         notifyListeners();
       }
+      return resp;
     } catch (error) {
       rethrow;
     }

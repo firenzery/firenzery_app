@@ -9,6 +9,7 @@ import 'package:firenzery/app/pages/payment_method/payment_method.controller.dar
 import 'package:firenzery/app/pages/person/person.controller.dart';
 import 'package:firenzery/app/pages/request_detail/request_detail.controller.dart';
 import 'package:firenzery/app/pages/requests/requests.controller.dart';
+import 'package:firenzery/app/pages/signup/signup.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.controller.dart';
 import 'package:firenzery/app/pages/splash/splash.page.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => AdressController()),
           ChangeNotifierProvider(create: (context) => CartController()),
           ChangeNotifierProvider(create: (context) => RequestController()),
+          ChangeNotifierProvider(create: (context) => SignUpController()),
           ChangeNotifierProvider(
               create: (context) => FinalizePurchaseController()),
           ChangeNotifierProvider(

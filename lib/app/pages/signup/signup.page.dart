@@ -1,16 +1,15 @@
 import 'package:brasil_fields/brasil_fields.dart';
-import 'package:firenzery/app/models/address.model.dart';
 import 'package:firenzery/app/models/user.model.dart';
+import 'package:firenzery/app/pages/login/components/alertDialog.dart';
+import 'package:firenzery/app/pages/login/login.page.dart';
 import 'package:firenzery/app/pages/signup/components/text_form.component.dart';
 import 'package:firenzery/app/pages/signup/signup.controller.dart';
-import 'package:firenzery/app/services/local/shared_preferences.service.dart';
-import 'package:firenzery/app/services/remote/client_http.service.dart';
-import 'package:firenzery/app/services/remote/user.service.dart';
 import 'package:firenzery/app/viewmodels/user.viewmodel.dart';
 import 'package:firenzery/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class SignupPage extends StatefulWidget {
   SignupPage();
@@ -20,7 +19,8 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  late final controller;
+  late final SignUpController controller;
+  late final UserViewModel userViewModel;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -45,6 +45,26 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   UserModel user = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    userViewModel = Provider.of<UserViewModel>(context, listen: false);
+    controller = context.read<SignUpController>();
+
+    controller.addListener(() {
+      if (controller.state == SignUpState.success) {
+        Future.delayed(
+            const Duration(milliseconds: 1000),
+            () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                ));
+      } else if (controller.state == SignUpState.error) {
+        showAlertDialog(context, controller.messageError, 'Cadastro');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +255,7 @@ class _SignupPageState extends State<SignupPage> {
                         if (!_formKey.currentState!.validate()) {
                           return;
                         } else {
-                          controller.register(context, user);
+                          controller.register(user, userViewModel);
                         }
                       },
                       style: ElevatedButton.styleFrom(

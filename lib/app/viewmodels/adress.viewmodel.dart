@@ -18,9 +18,10 @@ class AdressViewModel extends ChangeNotifier {
     try {
       var adress = await service.getAdress(clientId);
 
-      adressModel = AdressModel.fromJson(convert.jsonDecode(adress.body));
-
-      notifyListeners();
+      if (adress.statusCode == 200) {
+        adressModel = AdressModel.fromJson(convert.jsonDecode(adress.body));
+        notifyListeners();
+      }
 
       return adress;
     } catch (error) {
