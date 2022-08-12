@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'components/check_out_card.dart';
+import 'components/empty_cart.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -44,53 +45,57 @@ class _CartPageState extends State<CartPage> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(5)),
-        child: ListView.builder(
-            itemCount: productsViewModel.cartProducts.length,
-            itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: getProportionateScreenWidth(3)),
-                child: Consumer<ProductsViewModel>(
-                  builder: (context, productsViewModel, Widget? child) =>
-                      Dismissible(
-                    key: Key(productsViewModel.cartProducts[index].idProduct
-                        .toString()),
-                    direction: DismissDirection.endToStart,
-                    onDismissed: (direction) {
-                      setState(() {
-                        productsViewModel.cartProducts.removeAt(index);
-                        controller.calcMaxValue(productsViewModel.cartProducts);
-                      });
-                    },
-                    background: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFE6E6),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Row(
-                        children: [
-                          const Spacer(),
-                          SvgPicture.asset("assets/icons/Trash.svg"),
-                        ],
-                      ),
-                    ),
-                    child: CartCard(
-                        product: productsViewModel.cartProducts[index],
-                        press: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailsPage(
-                                      product: productsViewModel
-                                          .cartProducts[index]),
-                                ))
-                            .then(
-                                (value) => productsViewModel.refreshValues())),
-                  ),
-                ))),
-      ),
+      body: productsViewModel.cartProducts.isEmpty
+          ? const EmptyCart()
+          : Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(5)),
+              child: ListView.builder(
+                  itemCount: productsViewModel.cartProducts.length,
+                  itemBuilder: (context, index) => Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: getProportionateScreenWidth(3)),
+                      child: Consumer<ProductsViewModel>(
+                        builder: (context, productsViewModel, Widget? child) =>
+                            Dismissible(
+                          key: Key(productsViewModel
+                              .cartProducts[index].idProduct
+                              .toString()),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {
+                            setState(() {
+                              productsViewModel.cartProducts.removeAt(index);
+                              controller
+                                  .calcMaxValue(productsViewModel.cartProducts);
+                            });
+                          },
+                          background: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFE6E6),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Row(
+                              children: [
+                                const Spacer(),
+                                SvgPicture.asset("assets/icons/Trash.svg"),
+                              ],
+                            ),
+                          ),
+                          child: CartCard(
+                              product: productsViewModel.cartProducts[index],
+                              press: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailsPage(
+                                            product: productsViewModel
+                                                .cartProducts[index]),
+                                      ))
+                                  .then((value) =>
+                                      productsViewModel.refreshValues())),
+                        ),
+                      ))),
+            ),
       bottomNavigationBar: Consumer<CartController>(
         builder: (context, value, Widget? child) => CheckoutCard(
           total: controller.total,

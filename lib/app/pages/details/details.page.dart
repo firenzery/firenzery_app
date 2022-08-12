@@ -71,7 +71,7 @@ class _DatailsPageState extends State<DetailsPage> {
                       ),
                       const SizedBox(width: defaultPadding),
                       Text(
-                        "\$${widget.product.price}",
+                        "R\$${widget.product.price}",
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ],

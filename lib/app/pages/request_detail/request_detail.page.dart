@@ -164,7 +164,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                             Text.rich(
                               TextSpan(
                                 text:
-                                    "\$${saleViewModel.productsBySale[index].price}",
+                                    "R\$${saleViewModel.productsBySale[index].price}",
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: primaryColor),

@@ -1,13 +1,8 @@
-import 'package:firenzery/app/models/address.model.dart';
-import 'package:firenzery/app/models/category.model.dart';
-import 'package:firenzery/app/models/product.model.dart';
-import 'package:firenzery/app/models/user.model.dart';
+import 'package:badges/badges.dart';
 import 'package:firenzery/app/pages/address/adress.page.dart';
 import 'package:firenzery/app/pages/cart/cart.page.dart';
 import 'package:firenzery/app/pages/home/home.controller.dart';
 import 'package:firenzery/app/pages/list_products/list_products.page.dart';
-import 'package:firenzery/app/pages/login/login.controller.dart';
-import 'package:firenzery/app/pages/splash/splash.controller.dart';
 import 'package:firenzery/app/viewmodels/adress.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/categories.viewmodel.dart';
 import 'package:firenzery/app/viewmodels/products.viewmodel.dart';
@@ -96,13 +91,22 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           actions: [
-            IconButton(
-              icon: SvgPicture.asset("assets/icons/cart_icon.svg"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(),
+            Consumer<ProductsViewModel>(
+              builder: (BuildContext context, viewModel, Widget? child) {
+                return Badge(
+                  badgeColor: Colors.white,
+                  position: BadgePosition.bottomEnd(bottom: 5, end: 5),
+                  badgeContent: Text(viewModel.cartProducts.length.toString()),
+                  child: IconButton(
+                    icon: SvgPicture.asset("assets/icons/cart_icon.svg"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartPage(),
+                        ),
+                      ).then((value) => productsViewModel.refreshValues());
+                    },
                   ),
                 );
               },

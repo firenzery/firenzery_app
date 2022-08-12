@@ -138,7 +138,7 @@ class _FinalizePurchasePageState extends State<FinalizePurchasePage> {
                           Text.rich(
                             TextSpan(
                               text:
-                                  "\$${productsViewModel.cartProducts[index].price}",
+                                  "R\$${productsViewModel.cartProducts[index].price}",
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: primaryColor),

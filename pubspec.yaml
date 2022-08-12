@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.0.3
   cached_network_image: ^3.2.1
   quantity_input: ^1.0.2
+  badges: ^2.0.3
 
 dev_dependencies:
   flutter_test:
