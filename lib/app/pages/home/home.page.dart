@@ -157,9 +157,7 @@ class _HomePageState extends State<HomePage> {
                     Categories(categoriesViewModel.categories,
                         productsViewModel.products),
                     NewArrivalProducts(productsViewModel.newArrivedProducts),
-                    PopularProducts(
-                        popularProductsList: productsViewModel.products,
-                        categoryId: 1)
+                    PopularProducts(productsViewModel.popularProducts)
                   ],
                 );
               })),

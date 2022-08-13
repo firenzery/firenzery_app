@@ -47,7 +47,7 @@ class HomeController extends ChangeNotifier {
     try {
       await categoriesViewModel.getAllCategories();
       await productsViewModel.getAllProducts();
-      await productsViewModel.getNewArrivalProducts();
+      await productsViewModel.getPopularProducts();
       await adressViewModel.getAdress(userId);
       state = GetValuesState.success;
       notifyListeners();

@@ -1,5 +1,7 @@
 import 'package:firenzery/app/interfaces/products.interface.dart';
+import 'package:firenzery/app/models/popular-products-response.model.dart';
 import 'package:firenzery/app/models/product.model.dart';
+import 'package:firenzery/app/pages/home/components/popular_products.dart';
 import 'package:firenzery/app/services/remote/client_http.service.dart';
 import 'package:firenzery/app/services/remote/products.service.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ class ProductsViewModel extends ChangeNotifier {
   List<ProductModel> products = [];
   List<ProductModel> cartProducts = [];
   List<ProductModel> newArrivedProducts = [];
+  List<ProductModel> popularProducts = [];
 
   refreshValues() {
     notifyListeners();
@@ -37,20 +40,31 @@ class ProductsViewModel extends ChangeNotifier {
       products =
           productsBody.map((data) => ProductModel.fromJson(data)).toList();
 
+      newArrivedProducts = products;
+      newArrivedProducts.sort((a, b) => b.datetime!.compareTo(a.datetime!));
+      newArrivedProducts = newArrivedProducts.getRange(0, 5).toList();
+
       notifyListeners();
     } catch (error) {
       rethrow;
     }
   }
 
-  getNewArrivalProducts() async {
+  getPopularProducts() async {
     try {
-      var response = await service.getNewArrivedProducts();
+      var response = await this.service.getPopularProducts();
 
-      List newArrivedProductsBody = convert.jsonDecode(response.body);
+      List popularProductsBody = convert.jsonDecode(response.body);
 
-      newArrivedProducts = newArrivedProductsBody
-          .map((data) => ProductModel.fromJson(data))
+      popularProductsBody = popularProductsBody
+          .map((data) => PopularProductsResponse.fromJson(data))
+          .toList();
+
+      popularProducts = products
+          .where((product) => popularProductsBody
+              .map((e) => e.idProduct)
+              .toList()
+              .contains(product.idProduct))
           .toList();
 
       notifyListeners();

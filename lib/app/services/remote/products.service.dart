@@ -18,9 +18,9 @@ class ProductsService implements IProducts {
   }
 
   @override
-  Future getNewArrivedProducts() async {
+  Future getPopularProducts() async {
     try {
-      return await client.get("$url/products/get-new-arrival-products");
+      return await client.get("$url/products/get-popular-products");
     } catch (error) {
       throw error;
     }

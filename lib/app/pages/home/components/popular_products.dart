@@ -7,9 +7,8 @@ import 'section_title.dart';
 
 class PopularProducts extends StatelessWidget {
   final List popularProductsList;
-  final int? categoryId;
 
-  const PopularProducts({required this.popularProductsList, this.categoryId});
+  const PopularProducts(this.popularProductsList);
 
   @override
   Widget build(BuildContext context) {

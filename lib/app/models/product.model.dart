@@ -3,7 +3,7 @@ class ProductModel {
   String? image, name, description;
   double? price;
   int? type;
-  String? dateTime;
+  String? datetime;
   int? quantity;
 
   ProductModel(
@@ -13,7 +13,7 @@ class ProductModel {
       this.price,
       this.type,
       this.description,
-      this.dateTime,
+      this.datetime,
       this.quantity});
 
   ProductModel.fromJson(Map<String, dynamic> json) {
@@ -23,7 +23,7 @@ class ProductModel {
     price = json['price'].toDouble();
     type = json['type'];
     description = json['description'];
-    dateTime = json['dateTime'];
+    datetime = json['datetime'];
     quantity = 1;
   }
 
@@ -35,7 +35,7 @@ class ProductModel {
     data['price'] = price;
     data['type'] = type;
     data['description'] = description;
-    data['dateTime'] = dateTime;
+    data['dateTime'] = datetime;
     data['quantity'] = quantity;
     return data;
   }
