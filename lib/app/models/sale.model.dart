@@ -6,9 +6,15 @@ class SaleModel {
   int? state;
   double? total;
   String? saleDate;
+  double? rating;
 
   SaleModel(
-      {this.idSale, this.idClient, this.payment, this.paymentType, this.total});
+      {this.idSale,
+      this.idClient,
+      this.payment,
+      this.paymentType,
+      this.total,
+      this.rating});
 
   SaleModel.fromJson(Map<String, dynamic> json) {
     idSale = json['idSale'];
@@ -18,6 +24,7 @@ class SaleModel {
     total = json['total'].toDouble();
     state = json['state'];
     saleDate = json['saleDate'];
+    rating = json['rating'].toDouble();
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +35,7 @@ class SaleModel {
     data['paymentType'] = paymentType;
     data['total'] = total;
     data['state'] = state;
+    data['rating'] = rating;
     return data;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firenzery/app/models/sale.model.dart';
 import 'package:firenzery/app/viewmodels/sale.viewmodel.dart';
 import 'package:flutter/material.dart';
 
@@ -8,17 +9,20 @@ enum ResponseStateSaleEnum { idle, success, error, loading }
 class RequestDetailController extends ChangeNotifier {
   ResponseStateSaleEnum responseStateSale = ResponseStateSaleEnum.idle;
 
+  refreshValues() {
+    notifyListeners();
+  }
+
   getProductsBySaleId(SaleViewModel saleViewModel, int saleId) async {
     await saleViewModel.getProductsBySaleId(saleId);
     notifyListeners();
   }
 
-  alterStateSale(
-      SaleViewModel saleViewModel, int idSale, StateSaleEnum state) async {
+  alterSale(SaleViewModel saleViewModel, SaleModel sale) async {
     responseStateSale = ResponseStateSaleEnum.loading;
     notifyListeners();
-    var resp =
-        await saleViewModel.alterStateSale(idSale, getStateByEnum(state));
+
+    var resp = await saleViewModel.alterSale(sale);
     if (resp.statusCode == 200) {
       responseStateSale = ResponseStateSaleEnum.success;
       notifyListeners();

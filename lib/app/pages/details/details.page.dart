@@ -15,11 +15,20 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DatailsPageState extends State<DetailsPage> {
+  late final ProductsViewModel productsViewModel;
+  int? quantity;
+
+  @override
+  void initState() {
+    productsViewModel = Provider.of<ProductsViewModel>(context, listen: false);
+
+    quantity = widget.product.quantity;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    ProductsViewModel productsViewModel =
-        Provider.of<ProductsViewModel>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
@@ -87,9 +96,9 @@ class _DatailsPageState extends State<DetailsPage> {
                         QuantityInput(
                             inputWidth: 30,
                             buttonColor: primaryColor,
-                            value: widget.product.quantity,
+                            value: quantity,
                             onChanged: (value) {
-                              setState(() => widget.product.quantity =
+                              setState(() => quantity =
                                   int.parse(value.replaceAll(',', '')));
                             }),
                         SizedBox(
@@ -97,6 +106,7 @@ class _DatailsPageState extends State<DetailsPage> {
                           height: 48,
                           child: ElevatedButton(
                             onPressed: () {
+                              widget.product.quantity = quantity;
                               productsViewModel.addProductCart(widget.product);
                               Navigator.pop(context);
                             },

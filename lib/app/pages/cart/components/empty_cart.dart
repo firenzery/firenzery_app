@@ -25,8 +25,8 @@ class EmptyCart extends StatelessWidget {
               width: 300,
               child: Text(
                   textAlign: TextAlign.center,
-                  'Parece que você ainda não adicionou nenhum produto ao seu carrinho...',
-                  style: Theme.of(context).textTheme.bodyText1),
+                  'Parece que você ainda não adicionou nenhum produto ao seu carrinho.',
+                  style: Theme.of(context).textTheme.bodyText2),
             ),
           ],
         ),
