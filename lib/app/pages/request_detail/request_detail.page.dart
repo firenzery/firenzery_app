@@ -200,59 +200,54 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        const Text(
+                          'Resumo de valores',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                          maxLines: 2,
+                        ),
+                        SizedBox(height: getProportionateScreenHeight(10)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Resumo de valores',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                              maxLines: 2,
+                            Text(
+                              "Subtotal:",
+                              style: Theme.of(context).textTheme.bodyText1,
                             ),
-                            SizedBox(height: getProportionateScreenHeight(10)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  "Subtotal:",
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                                Text("R\$${widget.sale.total}",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    )),
-                              ],
+                            Text("R\$${widget.sale.total}",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                )),
+                          ],
+                        ),
+                        SizedBox(height: getProportionateScreenHeight(5)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Frete:",
+                              style: Theme.of(context).textTheme.bodyText1,
                             ),
-                            SizedBox(height: getProportionateScreenHeight(5)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  "Frete:",
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                const Text("R\$0.00",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    )),
-                              ],
+                            const Text("R\$0.00",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                )),
+                          ],
+                        ),
+                        SizedBox(height: getProportionateScreenHeight(5)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Total:",
+                              style: Theme.of(context).textTheme.bodyText1,
                             ),
-                            SizedBox(height: getProportionateScreenHeight(5)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  "Total:",
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                Text("R\$${widget.sale.total}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: primaryColor)),
-                              ],
-                            ),
+                            Text("R\$${widget.sale.total}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: primaryColor)),
                           ],
                         ),
                       ],
