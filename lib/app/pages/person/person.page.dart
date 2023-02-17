@@ -80,10 +80,7 @@ class _PersonPageState extends State<PersonPage> {
           child: GestureDetector(
             onTap: () {
               if (settings[index].name == 'Sair') {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => settings[index].tabs!));
+                controller.exit();
               } else {
                 Navigator.push(
                     context,
